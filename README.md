@@ -10,5 +10,8 @@ To start development on the React Native application
 
 The app can be run on your local device by downloading the Expo app for Android or iOS.
 
+### React Native app structure
+The `components` folder contains individually styled and reusable components. The `views` folder contains views to be used with `react-navigation`.
+
 ## Backend
 TBA
