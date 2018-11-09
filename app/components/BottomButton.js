@@ -3,9 +3,9 @@ import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 
 /**
  * Button used to switch between view in navigation
- * @param[in] buttonAction - a function that navigates to a different view
- * @param[in] buttonText - what the text of the button should show
- * @param[in] buttonFilled - boolean value for hollow or filled button
+ * @param {function} buttonAction - a function that navigates to a different view
+ * @param {string} buttonText - what the text of the button should show
+ * @param {boolean} buttonFilled - boolean value for hollow or filled button
  */
 class BottomButton extends React.Component {
   constructor(props) {
