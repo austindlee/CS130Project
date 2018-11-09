@@ -1,14 +1,20 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 
+export interface BottomButtonProps {
+  buttonAction: any;
+  buttonText: string;
+  buttonFilled?: boolean;
+}
+
 /**
  * Button used to switch between view in navigation
  * @param {function} buttonAction - a function that navigates to a different view
  * @param {string} buttonText - what the text of the button should show
  * @param {boolean} buttonFilled - boolean value for hollow or filled button
  */
-class BottomButton extends React.Component {
-  constructor(props) {
+class BottomButton extends React.Component<BottomButtonProps> {
+  constructor(props: BottomButtonProps) {
     super(props);
   }
 
