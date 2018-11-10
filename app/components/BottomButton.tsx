@@ -6,10 +6,10 @@ import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
  * @param buttonText - buttonText - what the text of the button should show
  * @param buttonFilled - buttonFilled - boolean value for hollow or filled button
  */
-export interface BottomButtonProps {
+type BottomButtonProps  = {
   buttonAction: any;
   buttonText: string;
-  buttonFilled?: boolean;
+  buttonFilled: boolean;
 }
 
 /**
@@ -17,21 +17,64 @@ export interface BottomButtonProps {
  * BottomButtonProps interface
  */
 class BottomButton extends React.Component<BottomButtonProps> {
+
   constructor(props: BottomButtonProps) {
     super(props);
   }
 
   render() {
+    let styleType;
+    if (this.props.buttonFilled) {
+      styleType = {};
+    }
     return(
       <View style={styles.container}>
         <TouchableOpacity
           onPress={this.props.buttonAction}
-          style={styles.button}
+          style={[styles.button, filledButtonStyle(this.props.buttonFilled)]}
         >
-          <Text style={styles.buttonText}>{this.props.buttonText}</Text>
+          <Text style={[styles.buttonText, buttonTextColor(this.props.buttonFilled)]}>{this.props.buttonText}</Text>
         </TouchableOpacity>
       </View>
     );
+  }
+}
+
+/**
+ * Internal function that indicates whether button text should be black or white
+ * @param isFilled whether or not the button is filled - passed in as a prop to higher level component
+ * @return JSON object with appropriate CSS styling
+ */
+function buttonTextColor(isFilled: boolean): Object {
+  if(isFilled) {
+    return {
+      color: '#fff'
+    }
+  } else {
+    return {
+      color: '#000'
+    }
+  }
+}
+
+/**
+ * Internal function that indicates whether button should be filled or hollow
+ * @param isFilled whether or not the button is filled - passed in as a prop to higher level component
+ * @return JSON object with appropriate CSS styling
+ */
+function filledButtonStyle(isFilled: boolean): Object {
+  if(isFilled) {
+    return {
+      backgroundColor: '#4700DC',
+      borderRadius: 25
+    }
+  } else {
+    return {
+      backgroundColor: '#fff',
+      borderRadius: 25,
+      borderWidth: 5,
+      borderColor: '#4700DC',
+    }
   }
 }
 
@@ -44,10 +87,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 25,
-    borderWidth: 5,
-    borderColor: 'purple',
-    backgroundColor: '#fff',
 
     // Shadow requirement for Android
     elevation: 5,

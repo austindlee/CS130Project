@@ -16,7 +16,16 @@ class ComponentPlaygroundScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <BottomButton buttonText="hello" buttonAction={testAlert}></BottomButton>
+        <BottomButton
+          buttonFilled={false}
+          buttonText="hello"
+          buttonAction={testAlert}>
+        </BottomButton>
+        <BottomButton
+          buttonFilled={true}
+          buttonText="hello"
+          buttonAction={testAlert}>
+        </BottomButton>
       </View>
     );
   }
