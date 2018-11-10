@@ -1,20 +1,19 @@
 import React from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 import BottomButton from '../components/BottomButton';
 import { createStackNavigator } from 'react-navigation';
 
-function testAlert() {
-  Alert.alert("The button was pressed");
-}
-
 class DevScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Development Staging',
+  };
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <BottomButton buttonText="hello" buttonAction={testAlert}></BottomButton>
-        <BottomButton buttonText="hello" buttonAction={testAlert}></BottomButton>
-      </View>
+      <Button
+        title='Component Playground'
+        onPress={() => this.props.navigation.navigate('ComponentPlayground')}
+      />
     );
   }
 }
