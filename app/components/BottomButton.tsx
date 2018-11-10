@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
+import GlobalStyles from '../globals/GlobalStyles';
 
 /**
  * @param buttonAction - buttonAction - a function that navigates to a different view
@@ -65,7 +66,7 @@ function buttonTextColor(isFilled: boolean): Object {
 function filledButtonStyle(isFilled: boolean): Object {
   if(isFilled) {
     return {
-      backgroundColor: '#4700DC',
+      backgroundColor: GlobalStyles.color.purple,
       borderRadius: 25
     }
   } else {
@@ -73,7 +74,7 @@ function filledButtonStyle(isFilled: boolean): Object {
       backgroundColor: '#fff',
       borderRadius: 25,
       borderWidth: 5,
-      borderColor: '#4700DC',
+      borderColor: GlobalStyles.color.purple
     }
   }
 }
