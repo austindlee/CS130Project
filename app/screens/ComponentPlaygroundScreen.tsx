@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import BottomButton from '../components/BottomButton';
+import GroupCard from '../components/GroupCard';
 import { createStackNavigator } from 'react-navigation';
 
 /** Test function passed in to a button */
@@ -26,6 +27,10 @@ class ComponentPlaygroundScreen extends React.Component {
           buttonText="hello"
           buttonAction={testAlert}>
         </BottomButton>
+        <GroupCard
+          groupName='Test Group'
+
+        />
       </View>
     );
   }

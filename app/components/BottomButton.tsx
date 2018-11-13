@@ -24,10 +24,6 @@ class BottomButton extends React.Component<BottomButtonProps> {
   }
 
   render() {
-    let styleType;
-    if (this.props.buttonFilled) {
-      styleType = {};
-    }
     return(
       <View style={styles.container}>
         <TouchableOpacity
