@@ -13,4 +13,10 @@ export default GlobalStyles = {
     night: ['#03009A', '#AD00FF'],
     latenight: ['#870000', '#47007F']
   },
+  groupText: {
+    fontSize: 30,
+    color: '#4700DC',
+    textAlign: 'center',
+    fontWeight: 'bold'
+  }
 }

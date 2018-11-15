@@ -5,12 +5,18 @@ import DevScreen from './screens/DevScreen';
 import { createStackNavigator } from 'react-navigation';
 import ComponentPlaygroundScreen from './screens/ComponentPlaygroundScreen';
 import HomeScreen from './screens/HomeScreen';
+import GroupListScreen from './screens/GroupListScreen';
+import CreateGroupScreen from './screens/CreateGroupScreen';
+import JoinGroupScreen from './screens/JoinGroupScreen';
 
 const RootStack = createStackNavigator(
   {
     Development: DevScreen,
     ComponentPlayground: ComponentPlaygroundScreen,
     HomeScreen: HomeScreen,
+    GroupListScreen: GroupListScreen,
+    CreateGroupScreen: CreateGroupScreen,
+    JoinGroupScreen: JoinGroupScreen
   },
   {
     initialRouteName: 'Development'
