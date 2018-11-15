@@ -3,6 +3,7 @@ import { Alert, Button, FlatList, StyleSheet, Text, TextInput, View } from 'reac
 import BottomButton from '../components/BottomButton';
 import GroupCard from '../components/GroupCard';
 import { StackActions, NavigationActions } from 'react-navigation';
+import GlobalStyles from '../globals/GlobalStyles';
 
 class CreateGroupScreen extends React.Component {
   constructor(props: any) {
@@ -25,17 +26,27 @@ class CreateGroupScreen extends React.Component {
 
   render(){
     return(
-      <View>
-        <Text>What's the name?</Text>
+      <View style={styles.container}>
+        <Text style={GlobalStyles.groupText}>What's the name?</Text>
         <TextInput
           placeholder='Enter group name'
           maxLength={40}
           onChangeText={(text)=> this.setState({text})}
           onSubmitEditing={this.submitGroupName}
+          style={GlobalStyles.groupText}
+
         />
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+})
 
 export default CreateGroupScreen
