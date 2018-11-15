@@ -4,11 +4,13 @@ import BottomButton from './components/BottomButton';
 import DevScreen from './screens/DevScreen';
 import { createStackNavigator } from 'react-navigation';
 import ComponentPlaygroundScreen from './screens/ComponentPlaygroundScreen';
+import GroupListScreen from './screens/GroupListScreen';
 
 const RootStack = createStackNavigator(
   {
     Development: DevScreen,
-    ComponentPlayground: ComponentPlaygroundScreen
+    ComponentPlayground: ComponentPlaygroundScreen,
+    GroupListScreen: GroupListScreen
   },
   {
     initialRouteName: 'Development'

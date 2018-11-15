@@ -3,22 +3,15 @@ import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 import BottomButton from '../components/BottomButton';
 import { createStackNavigator } from 'react-navigation';
 
-class DevScreen extends React.Component {
+class GroupListScreen extends React.Component {
   static navigationOptions = {
-    title: 'Development Staging',
+    title: 'Group List Screen',
   };
 
   render() {
     return (
       <View>
-        <Button
-          title='Component Playground'
-          onPress={() => this.props.navigation.navigate('ComponentPlayground')}
-        />
-        <Button
-          title='Group List Screen'
-          onPress={() => this.props.navigation.navigate('GroupListScreen')}
-        />
+
       </View>
     );
   }
@@ -33,4 +26,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DevScreen
+export default GroupListScreen
