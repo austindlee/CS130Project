@@ -82,11 +82,17 @@ export default class GroupCard extends React.Component<GroupCardProps> {
 
     return (
       <View style={styles.cardContainer}>
+        <LinearGradient
+          colors={GlobalStyles.gradients.green}
+          style={styles.gradientContainer}
+          start={[0,0]}
+          end={[1,1]}>
         <Text>{this.props.groupName}</Text>
         <NextEventBadge
           nextEventName='Test Event'
           nextEventDate={testDate}
         />
+        </LinearGradient>
       </View>
     );
   }
@@ -107,10 +113,11 @@ const styles = StyleSheet.create(
       alignSelf: 'flex-start'
     },
     cardContainer: {
-      backgroundColor: 'red',
-      padding: 10,
-      borderRadius: 12,
       alignSelf: 'stretch'
+    },
+    gradientContainer: {
+      padding: 10,
+      borderRadius: 12
     }
   }
 );
