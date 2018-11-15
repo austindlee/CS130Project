@@ -20,6 +20,38 @@ class GroupListScreen extends React.Component<{}, GroupListScreenState, {}> {
       {
         key: '1',
         groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
       }],
       isLoading: false
     };
