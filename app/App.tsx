@@ -4,6 +4,7 @@ import BottomButton from './components/BottomButton';
 import DevScreen from './screens/DevScreen';
 import { createStackNavigator } from 'react-navigation';
 import ComponentPlaygroundScreen from './screens/ComponentPlaygroundScreen';
+import firebase from 'firebase';
 
 // Initialize Firebase
 var config = {

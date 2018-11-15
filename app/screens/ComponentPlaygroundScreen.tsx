@@ -4,6 +4,7 @@ import Expo from 'expo';
 import BottomButton from '../components/BottomButton';
 import GroupCard from '../components/GroupCard';
 import { createStackNavigator } from 'react-navigation';
+import createUser from '../utils/firebase/UserUtils.tsx';
 
 /** Test function passed in to a button */
 function testAlert(): void {
@@ -26,6 +27,11 @@ class ComponentPlaygroundScreen extends React.Component {
           buttonFilled={true}
           buttonText="hello"
           buttonAction={testAlert}>
+        </BottomButton>
+        <BottomButton
+          buttonFilled={true}
+          buttonText="testAdd"
+          buttonAction={testAdd}>
         </BottomButton>
         <GroupCard
           groupName='Test Group'
@@ -57,6 +63,10 @@ async function getUserInfo(accessToken) {
 
   // return userInfoResponse;
   return calendarResponse;
+}
+
+function testAdd() {
+  createUser("poop");
 }
 
 async function signInWithGoogleAsync() {
