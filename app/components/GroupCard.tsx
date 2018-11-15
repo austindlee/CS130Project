@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import GlobalStyles from '../globals/GlobalStyles';
+import { LinearGradient } from 'expo';
 
 type GroupCardNextEventProps = {
   nextEventName: string,
