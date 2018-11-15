@@ -1,6 +1,6 @@
 import React from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
-import Expo from 'expo';
+import { Alert, StyleSheet, Text, View, Button } from 'react-native';
+import * as Expo from 'expo';
 import BottomButton from '../components/BottomButton';
 import GroupCard from '../components/GroupCard';
 import { createStackNavigator } from 'react-navigation';
@@ -12,24 +12,24 @@ function testAlert(): void {
 
 class ComponentPlaygroundScreen extends React.Component {
   static navigationOptions = {
-    title: 'Component Playground',
+    title: 'PlanIt',
   };
   render() {
     return (
       <View style={styles.container}>
-        <BottomButton
-          buttonFilled={false}
-          buttonText="hello"
-          buttonAction={signInWithGoogleAsync}>
-        </BottomButton>
-        <BottomButton
-          buttonFilled={true}
-          buttonText="hello"
-          buttonAction={testAlert}>
-        </BottomButton>
-        <GroupCard
-          groupName='Test Group'
-
+        <Text style={styles.welcome}>
+          Welcome to PlanIt!
+        </Text>
+        <Text style={styles.instructions}>
+          To get started, sign in with your Google account.
+        </Text>
+        <Button
+          color="#841584"
+          title="Sign In"
+          onPress={() => {
+            signInWithGoogleAsync();
+            this.props.navigation.navigate('HomeScreen');
+          }}
         />
       </View>
     );
@@ -64,15 +64,17 @@ async function signInWithGoogleAsync() {
     console.log("entering result get");
     const result = await Expo.Google.logInAsync({
       androidClientId: "9082209040-2um3lmf7kfh1enpabk5o6igiump72ppi.apps.googleusercontent.com",
-      // iosClientId: YOUR_CLIENT_ID_HERE,
+      iosClientId: "9082209040-hlvr3h8uc9e8buaej5mphgv4lmvihpuf.apps.googleusercontent.com",
       scopes: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'],
     });
+    console.log("result type", result.type);
 
     if (result.type === 'success') {
       console.log("was a success")
       console.log(result)
       console.log("ACCESS TOKEN" + result.accessToken)
       getUserInfo(result.accessToken)
+      this.props.navigation.navigate('HomeScreen');
       return result.accessToken;
     } else {
       return {cancelled: true};
@@ -82,12 +84,29 @@ async function signInWithGoogleAsync() {
   }
 }
 
+async function createNewUser() {
+  // TO DO:
+  // Once firebase is set up, create a unique memberID for each user and store
+  // in firebase.
+}
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 10,
   },
 });
 
