@@ -5,6 +5,7 @@ import DevScreen from './screens/DevScreen';
 import { createStackNavigator } from 'react-navigation';
 import ComponentPlaygroundScreen from './screens/ComponentPlaygroundScreen';
 import firebase from 'firebase';
+import 'firebase/firestore';
 
 // Initialize Firebase
 var config = {
