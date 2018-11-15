@@ -14,3 +14,10 @@ export default function createUser(name: string) {
       console.log('error ' , error)
   })
 }
+
+
+export default function getUsersGroups({USERID}) {
+}
+
+export default function getUsersCalendarID({USERID}) {
+}
