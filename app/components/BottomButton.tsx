@@ -69,7 +69,7 @@ function filledButtonStyle(isFilled: boolean): Object {
     return {
       backgroundColor: '#fff',
       borderRadius: 25,
-      borderWidth: 5,
+      borderWidth: 1,
       borderColor: GlobalStyles.color.purple
     }
   }
@@ -78,7 +78,7 @@ function filledButtonStyle(isFilled: boolean): Object {
 const styles = StyleSheet.create({
   container: {
     height: 50,
-    flexDirection: 'row',
+    marginTop: 10
   },
   button: {
     flex: 1,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
     // Shadow requirement for Android
-    elevation: 5,
+    elevation: 3,
 
     // Shadow requirements for iOS
     shadowRadius: 5,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: 'bold',
-    fontSize: 30
+    fontSize: 20
   }
 });
 

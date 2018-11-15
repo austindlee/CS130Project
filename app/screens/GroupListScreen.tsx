@@ -20,6 +20,38 @@ class GroupListScreen extends React.Component<{}, GroupListScreenState, {}> {
       {
         key: '1',
         groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
+      },
+      {
+        key: '1',
+        groupName: 'Test Group 2'
       }],
       isLoading: false
     };
@@ -31,7 +63,7 @@ class GroupListScreen extends React.Component<{}, GroupListScreenState, {}> {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <View style={styles.listContainer}>
           <FlatList
             data={this.state.testData}
@@ -59,14 +91,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 10,
+    paddingTop: 0,
+    justifyContent: 'space-between'
+  },
+  lastButtonMargin: {
+    marginTop: 10
   },
   buttonActions: {
-    flex: 1
+    height: 130,
+    alignSelf: 'stretch',
   },
   listContainer: {
-
+    flex: 1
   }
 });
 

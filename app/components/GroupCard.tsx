@@ -112,9 +112,6 @@ const styles = StyleSheet.create(
       paddingRight: 10,
       alignSelf: 'flex-start'
     },
-    cardContainer: {
-      alignSelf: 'stretch'
-    },
     gradientContainer: {
       padding: 10,
       borderRadius: 12
