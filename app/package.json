@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "docs": "typedoc --out ./docs --target ES5 --ignoreCompilerErrors"
+    "docs": "typedoc --out ./docs --target ES5 --ignoreCompilerErrors",
+    "test": "jest"
   },
   "dependencies": {
     "@types/expo": "^30.0.0",
@@ -19,6 +20,7 @@
     "react-navigation": "^2.18.2"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.9",
     "@types/react": "^16.7.1",
     "@types/react-native": "^0.57.7",
     "@types/react-navigation": "^2.13.1",
@@ -26,6 +28,7 @@
     "esdoc": "^1.1.0",
     "esdoc-standard-plugin": "^1.0.0",
     "esdoc-typescript-plugin": "^1.0.1",
+    "jest": "^23.6.0",
     "react-native-typescript-transformer": "^1.2.10",
     "ts-jest": "^23.10.4",
     "typedoc": "^0.13.0",
