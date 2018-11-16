@@ -59,6 +59,7 @@ async function getUserInfo(accessToken) {
     });
   });
   console.log(idArray);
+  let eventStartTimes = [];
   await fetch('https://www.googleapis.com/calendar/v3/calendars/' + idArray[1] + '/events', {
   method: 'GET',
   headers: {
@@ -73,10 +74,12 @@ async function getUserInfo(accessToken) {
   .then (responseJSON => {
     responseJSON.items.forEach(function(element) {
       console.log(element.start.dateTime);
+      eventStartTimes.push(element.start.dateTime);
     });
+    return eventStartTimes;
   });
 
-  return true;
+  return eventStartTimes;
 }
 
 function testFirebaseSetup() {
