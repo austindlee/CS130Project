@@ -58,10 +58,4 @@ export default GlobalStyles = {
       fontSize: 15
     }
   },
-  groupText: {
-    fontSize: 40,
-    color: '#4700DC',
-    textAlign: 'left',
-    fontWeight: 'bold'
-  }
 }

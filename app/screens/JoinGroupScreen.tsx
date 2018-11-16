@@ -13,7 +13,6 @@ class JoinGroupScreen extends React.Component {
     },
     headerTintColor: '#fff'
   };
-
   constructor(props: any) {
     super(props);
 
