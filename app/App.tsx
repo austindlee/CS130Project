@@ -5,10 +5,26 @@ import { Font } from 'expo';
 import DevScreen from './screens/DevScreen';
 import { createStackNavigator } from 'react-navigation';
 import ComponentPlaygroundScreen from './screens/ComponentPlaygroundScreen';
+import firebase from 'firebase';
+import 'firebase/firestore';
 import HomeScreen from './screens/HomeScreen';
 import GroupListScreen from './screens/GroupListScreen';
 import CreateGroupScreen from './screens/CreateGroupScreen';
 import JoinGroupScreen from './screens/JoinGroupScreen';
+
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyAi3jiRJKl472HN-w-r4p8adyy1lnhV7Ss",
+  authDomain: "planit-7df53.firebaseapp.com",
+  databaseURL: "https://planit-7df53.firebaseio.com",
+  projectId: "planit-7df53",
+  storageBucket: "planit-7df53.appspot.com",
+  messagingSenderId: "365219979561"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+}
 
 const RootStack = createStackNavigator(
   {

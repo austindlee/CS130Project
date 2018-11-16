@@ -4,6 +4,8 @@ import * as Expo from 'expo';
 import BottomButton from '../components/BottomButton';
 import GroupCard from '../components/GroupCard';
 import { createStackNavigator } from 'react-navigation';
+import createUser from '../utils/firebase/UserUtils';
+import getUsersGroups from '../utils/firebase/UserUtils';
 
 /** Test function passed in to a button */
 function testAlert(): void {
@@ -57,6 +59,11 @@ async function getUserInfo(accessToken) {
 
   // return userInfoResponse;
   return calendarResponse;
+}
+
+function testFirebaseSetup() {
+  createUser("poop");
+  getUsersGroups("8VmsTMtMJjGOdChQILfz");
 }
 
 async function signInWithGoogleAsync() {
