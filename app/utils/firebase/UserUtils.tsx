@@ -5,10 +5,11 @@ import firebase, { firestore } from 'firebase';
 import 'firebase/firestore';
 
 /**
- * Creates a user document in the Firestore no-sql database and returns the unique userID
- * @param username - username - name of the user
+ * Creates a user document in the Firestore no-sql database
+ * @param username - name of the user
+ * @return - the unique userID of the newly created user
  */
-export default async function createUser(username: string) {
+export async function createUser(username: string) {
     // initialize Firestore
     const db = firebase.firestore();
     const settings = {
@@ -23,10 +24,11 @@ export default async function createUser(username: string) {
 }
 
 /**
- * Returns an array of groups that a user is in
- * @param userID - userID - takes a unique user ID to identify the user
+ * Gets the groups that a user is currently a part of
+ * @param userID - takes a unique user ID to identify the user
+ * @return - an array of groups that the user is currently a part of 
  */
-export default function getUsersGroups(userID: number) {
+export async function getUsersGroups(userID: number) {
     // initialize Firestore
     const db = firebase.firestore();
     const settings = {
@@ -36,7 +38,7 @@ export default function getUsersGroups(userID: number) {
 
     // add each group from user's group subcollection to array
     var groups : string[] = [];
-    db.collection('users').doc(userID).collection('groups').get().then(function(querySnapshot) {
+    await db.collection('users').doc(userID).collection('groups').get().then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
             groups.push(doc.id);
         });
