@@ -28,9 +28,9 @@ class BottomButton extends React.Component<BottomButtonProps> {
       <View style={styles.container}>
         <TouchableOpacity
           onPress={this.props.buttonAction}
-          style={[styles.button, filledButtonStyle(this.props.buttonFilled)]}
+          style={[styles.button, filledButtonStyle(this.props.buttonFilled), GlobalStyles.dropShadow]}
         >
-          <Text style={[styles.buttonText, buttonTextColor(this.props.buttonFilled)]}>{this.props.buttonText}</Text>
+          <Text style={[GlobalStyles.fontSize.medium, GlobalStyles.fontFamily.secondaryFontBold, buttonTextColor(this.props.buttonFilled)]}>{this.props.buttonText}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -83,20 +83,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-
-    // Shadow requirement for Android
-    elevation: 3,
-
-    // Shadow requirements for iOS
-    shadowRadius: 5,
-    shadowOpacity: 0.25,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 0},
-  },
-  buttonText: {
-    fontWeight: 'bold',
-    fontSize: 20
+    alignItems: 'center'
   }
 });
 

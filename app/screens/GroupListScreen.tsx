@@ -58,7 +58,7 @@ class GroupListScreen extends React.Component<{}, GroupListScreenState, {}> {
   }
 
   static navigationOptions = {
-    title: 'Group List Screen',
+    title: 'Your Groups',
   };
 
   render() {
