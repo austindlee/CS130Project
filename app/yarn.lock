@@ -702,7 +702,15 @@
   version "1.2.0"
   resolved "http://registry.npmjs.org/@types/events/-/events-1.2.0.tgz#81a6731ce4df43619e5c8c945383b3e62a89ea86"
 
-"@types/fbemitter@^2.0.32":
+"@types/expo@^30.0.0":
+  version "30.0.0"
+  resolved "https://registry.yarnpkg.com/@types/expo/-/expo-30.0.0.tgz#fb19a1148b8d3136bf31cdc2ea09baa81b282a36"
+  dependencies:
+    "@types/fbemitter" "*"
+    "@types/react" "*"
+    "@types/react-native" "*"
+
+"@types/fbemitter@*", "@types/fbemitter@^2.0.32":
   version "2.0.32"
   resolved "http://registry.npmjs.org/@types/fbemitter/-/fbemitter-2.0.32.tgz#8ed204da0f54e9c8eaec31b1eec91e25132d082c"
 

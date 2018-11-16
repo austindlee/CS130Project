@@ -10,6 +10,7 @@
     "docs": "typedoc --out ./docs --target ES5 --ignoreCompilerErrors"
   },
   "dependencies": {
+    "@types/expo": "^30.0.0",
     "expo": "^31.0.2",
     "firebase": "^5.5.8",
     "react": "16.5.0",

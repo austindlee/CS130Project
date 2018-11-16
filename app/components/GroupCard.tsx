@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import GlobalStyles from '../globals/GlobalStyles';
+import { LinearGradient } from 'expo';
 
 type GroupCardNextEventProps = {
   nextEventName: string,
@@ -49,9 +50,9 @@ class NextEventBadge extends React.Component<GroupCardNextEventProps> {
     let dateDisplay;
 
     if(dateDiffInDays(currentDate, this.props.nextEventDate) > 6) {
-      dateDisplay = <Text style={styles.text}>{month}/{day} at {hours}:{minutes}</Text>
+      dateDisplay = <Text style={[GlobalStyles.fontSize.small, GlobalStyles.fontFamily.secondaryFont, GlobalStyles.textColor.white]}>{month}/{day} at {hours}:{minutes}</Text>
     } else {
-      dateDisplay = <Text style={styles.text}>{dayNumberMap[dayOfWeek]} at {hours}:{minutes}</Text>
+      dateDisplay = <Text style={[GlobalStyles.fontSize.small, GlobalStyles.fontFamily.secondaryFont, GlobalStyles.textColor.white]}>{dayNumberMap[dayOfWeek]} at {hours}:{minutes}</Text>
     }
 
     return (
@@ -81,11 +82,17 @@ export default class GroupCard extends React.Component<GroupCardProps> {
 
     return (
       <View style={styles.cardContainer}>
-        <Text>{this.props.groupName}</Text>
+        <LinearGradient
+          colors={GlobalStyles.gradients.green}
+          style={styles.gradientContainer}
+          start={[0,0]}
+          end={[1,1]}>
+        <Text style={[GlobalStyles.fontSize.medium, GlobalStyles.textColor.white, GlobalStyles.fontFamily.primaryFontBold]}>{this.props.groupName}</Text>
         <NextEventBadge
           nextEventName='Test Event'
           nextEventDate={testDate}
         />
+        </LinearGradient>
       </View>
     );
   }
@@ -93,9 +100,8 @@ export default class GroupCard extends React.Component<GroupCardProps> {
 
 const styles = StyleSheet.create(
   {
-    text: {
-      color: '#fff',
-      fontSize: 16
+    cardContainer: {
+      marginBottom: 10
     },
     badgeContainer: {
       backgroundColor: '#000',
@@ -103,13 +109,12 @@ const styles = StyleSheet.create(
       borderRadius: 12,
       paddingLeft: 10,
       paddingRight: 10,
+      justifyContent: 'center',
       alignSelf: 'flex-start'
     },
-    cardContainer: {
-      backgroundColor: 'red',
+    gradientContainer: {
       padding: 10,
-      borderRadius: 12,
-      alignSelf: 'stretch'
+      borderRadius: 12
     }
   }
 );

@@ -3,29 +3,22 @@ import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 import BottomButton from '../components/BottomButton';
 import { createStackNavigator } from 'react-navigation';
 
-class DevScreen extends React.Component {
+class HomeScreen extends React.Component {
   static navigationOptions = {
-    title: 'Development Staging',
+    title: 'Home Screen',
   };
 
   render() {
     return (
-      <View>
-        <Button
-          title='Component Playground'
-          onPress={() => this.props.navigation.navigate('ComponentPlayground')}
-        />
-        <Button
-          title='Group List Screen'
-          onPress={() => this.props.navigation.navigate('GroupListScreen')}
-        />
-      </View>
+      <Text style={styles.confirm}>
+      You've successfully logged in!
+      </Text>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  confirm: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -33,4 +26,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DevScreen
+export default HomeScreen
