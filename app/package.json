@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "docs": "typedoc --out ./docs --target ES5 --ignoreCompilerErrors"
+    "docs": "typedoc --out ./docs --target ES6 --ignoreCompilerErrors"
   },
   "dependencies": {
     "@types/expo": "^30.0.0",
