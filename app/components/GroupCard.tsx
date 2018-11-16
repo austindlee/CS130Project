@@ -4,17 +4,30 @@ import GlobalStyles from '../globals/GlobalStyles';
 import { LinearGradient } from 'expo';
 import * as TimeConversion from '../utils/local/TimeConversion';
 
+
+/**
+ * @param nextEventName - nextEventName - name of the next event for a specific group
+ * @param nextEventDate - nextEventDate - date object containing the date + time info for the next event
+ */
 type GroupCardNextEventProps = {
   nextEventName: string,
   nextEventDate: Date
 }
 
+/**
+ * @param groupName - groupName - a string representing the name of the group
+ * @param groupPhotos - groupPhotos - a JSON object containing the photos of the member in the group
+ * @param groupNextEvent - see GroupCardNextEventProps - given if the group has an event coming up
+ */
 type GroupCardProps = {
   groupName: string,
   groupPhotos?: Object,
   groupNextEvent?: GroupCardNextEventProps
 }
 
+/** A badge that is part of the Group card containing the info of the next event.
+ * See GroupCardNextEventProps for parameters
+ */
 class NextEventBadge extends React.Component<GroupCardNextEventProps> {
   constructor(props: GroupCardNextEventProps) {
     super(props);
@@ -44,6 +57,9 @@ class NextEventBadge extends React.Component<GroupCardNextEventProps> {
   }
 }
 
+/** A group card showing group name, next event and members.
+ * See GroupCardProps for parameters
+ */
 export default class GroupCard extends React.Component<GroupCardProps> {
   constructor(props: GroupCardProps) {
     super(props);
