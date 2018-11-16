@@ -71,7 +71,6 @@ async function getUserInfo(accessToken) {
     return response.json();
   })
   .then (responseJSON => {
-    console.log(responseJSON);
     responseJSON.items.forEach(function(element) {
       console.log(element.start.dateTime);
     });
