@@ -7,7 +7,8 @@ export default GlobalStyles = {
   textColor: {
     purple: {color: '#4700DC'},
     white: {color: '#fff'},
-    black: {color: '#000'}
+    black: {color: '#000'},
+    grey: {color: '#808080'}
   },
   padding: {
     defaultPadding: 10
