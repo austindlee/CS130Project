@@ -1,1 +1,0 @@
-const diff = require('../screens/SignInScreen');
