@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import GlobalStyles from '../globals/GlobalStyles';
 import { LinearGradient } from 'expo';
+import * as TimeConversion from '../utils/local/TimeConversion';
 
 type GroupCardNextEventProps = {
   nextEventName: string,
@@ -12,26 +13,6 @@ type GroupCardProps = {
   groupName: string,
   groupPhotos?: Object,
   groupNextEvent?: GroupCardNextEventProps
-}
-
-const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-
-function dateDiffInDays(a: Date, b: Date): number {
-  // Discard the time and time-zone information.
-  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-
-  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
-}
-
-const dayNumberMap: any = {
-  1: 'Monday',
-  2: 'Tuesday',
-  3: 'Wednesday',
-  4: 'Thursday',
-  5: 'Friday',
-  6: 'Saturday',
-  7: 'Sunday'
 }
 
 class NextEventBadge extends React.Component<GroupCardNextEventProps> {
@@ -49,10 +30,10 @@ class NextEventBadge extends React.Component<GroupCardNextEventProps> {
     const currentDate = new Date();
     let dateDisplay;
 
-    if(dateDiffInDays(currentDate, this.props.nextEventDate) > 6) {
+    if(TimeConversion.dateDiffInDays(currentDate, this.props.nextEventDate) > 6) {
       dateDisplay = <Text style={[GlobalStyles.fontSize.small, GlobalStyles.fontFamily.secondaryFont, GlobalStyles.textColor.white]}>{month}/{day} at {hours}:{minutes}</Text>
     } else {
-      dateDisplay = <Text style={[GlobalStyles.fontSize.small, GlobalStyles.fontFamily.secondaryFont, GlobalStyles.textColor.white]}>{dayNumberMap[dayOfWeek]} at {hours}:{minutes}</Text>
+      dateDisplay = <Text style={[GlobalStyles.fontSize.small, GlobalStyles.fontFamily.secondaryFont, GlobalStyles.textColor.white]}>{TimeConversion.dayNumberMap[dayOfWeek]} at {hours}:{minutes}</Text>
     }
 
     return (
