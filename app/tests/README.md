@@ -25,7 +25,7 @@ Our tests for functions in PlanIt
 &nbsp;&nbsp;&nbsp;&nbsp;**Outcome Test Success**: Query firebase and return array of group ids  
 &nbsp;&nbsp;&nbsp;&nbsp;**Failure Indicators**:  userID doesn’t exist or not in a group  
 <br> 
-**INSERT FILENAME HERE**: Tests the ability of Firebase utility functions to add a user into a group  
+**FirebaseGroupUtils.test.tsx**: Tests the ability of Firebase utility functions to add a user into a group  
 &nbsp;&nbsp;&nbsp;&nbsp;**Input**: userID: string, groupID: string  
 &nbsp;&nbsp;&nbsp;&nbsp;**Output**: boolean: T or F indicating if the user is added into the group  
 &nbsp;&nbsp;&nbsp;&nbsp;**Outcome Test Success**: The group associated with that groupID adds that user as a member  
