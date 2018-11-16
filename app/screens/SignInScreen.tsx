@@ -1,38 +1,29 @@
 import React from 'react';
-import { Alert, StyleSheet, Text, View, Button } from 'react-native';
-import * as Expo from 'expo';
+import { Alert, Button, StyleSheet, Text, View, TextInput } from 'react-native';
 import BottomButton from '../components/BottomButton';
-import GroupCard from '../components/GroupCard';
 import { createStackNavigator } from 'react-navigation';
-import createUser from '../utils/firebase/UserUtils';
-import getUsersGroups from '../utils/firebase/UserUtils';
 
-/** Test function passed in to a button */
-function testAlert(): void {
-  Alert.alert("The button was pressed");
-}
-
-class ComponentPlaygroundScreen extends React.Component {
+class SignInScreen extends React.Component {
   static navigationOptions = {
-    title: 'PlanIt',
+    title: 'Welcome',
   };
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to PlanIt!
+        <Text style={styles.intro}>
+          Thanks! Let's get your calendar info from Google.
         </Text>
-        <Text style={styles.instructions}>
-          To get started, sign in with your Google account.
-        </Text>
-        <Button
-          color="#841584"
-          title="Sign In"
-          onPress={() => {
+        <View style={styles.buttonActions}>
+        <BottomButton
+          buttonAction={() => {
             signInWithGoogleAsync();
-            this.props.navigation.navigate('HomeScreen');
+            this.props.navigation.navigate('GroupListScreen');
           }}
+          buttonText='Login With Google'
+          buttonFilled={false}
         />
+        </View>
       </View>
     );
   }
@@ -91,7 +82,6 @@ async function signInWithGoogleAsync() {
       console.log(result)
       console.log("ACCESS TOKEN" + result.accessToken)
       getUserInfo(result.accessToken)
-      this.props.navigation.navigate('HomeScreen');
       return result.accessToken;
     } else {
       return {cancelled: true};
@@ -107,24 +97,23 @@ async function createNewUser() {
   // in firebase.
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: GlobalStyles.color.purple,
     alignItems: 'center',
-    justifyContent: 'center',
+
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
+  intro: {
+    fontSize: GlobalStyles.fontSize.large.fontSize,
+    fontFamily: GlobalStyles.fontFamily.primaryFontBold.fontFamily,
+    color: GlobalStyles.textColor.white.color,
     margin: 10,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 10,
+  buttonActions: {
+    height: 130,
+    alignSelf: 'stretch',
   },
 });
 
-export default ComponentPlaygroundScreen
+export default SignInScreen
