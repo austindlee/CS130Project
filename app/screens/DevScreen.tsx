@@ -12,8 +12,8 @@ class DevScreen extends React.Component {
     return (
       <View>
         <Button
-          title='Component Playground'
-          onPress={() => this.props.navigation.navigate('ComponentPlayground')}
+          title='PlanIt'
+          onPress={() => this.props.navigation.navigate('StartScreen')}
         />
         <Button
           title='Group List Screen'

@@ -4,13 +4,15 @@ import BottomButton from './components/BottomButton';
 import { Font } from 'expo';
 import DevScreen from './screens/DevScreen';
 import { createStackNavigator } from 'react-navigation';
-import ComponentPlaygroundScreen from './screens/ComponentPlaygroundScreen';
+import StartScreen from './screens/StartScreen';
 import firebase from 'firebase';
 import 'firebase/firestore';
 import HomeScreen from './screens/HomeScreen';
 import GroupListScreen from './screens/GroupListScreen';
 import CreateGroupScreen from './screens/CreateGroupScreen';
 import JoinGroupScreen from './screens/JoinGroupScreen';
+import NameScreen from './screens/NameScreen';
+import SignInScreen from './screens/SignInScreen';
 
 // Initialize Firebase
 var config = {
@@ -29,11 +31,13 @@ if (!firebase.apps.length) {
 const RootStack = createStackNavigator(
   {
     Development: DevScreen,
-    ComponentPlayground: ComponentPlaygroundScreen,
+    StartScreen: StartScreen,
     HomeScreen: HomeScreen,
     GroupListScreen: GroupListScreen,
     CreateGroupScreen: CreateGroupScreen,
-    JoinGroupScreen: JoinGroupScreen
+    JoinGroupScreen: JoinGroupScreen,
+    NameScreen: NameScreen,
+    SignInScreen: SignInScreen,
   },
   {
     initialRouteName: 'Development'
