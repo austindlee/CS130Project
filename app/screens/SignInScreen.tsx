@@ -1,28 +1,54 @@
 import React from 'react';
-import { Alert, Button, StyleSheet, Text, View, TextInput } from 'react-native';
+import { Alert, Button, StyleSheet, Text, View, TextInput, ActivityIndicator } from 'react-native';
 import BottomButton from '../components/BottomButton';
 import { createStackNavigator } from 'react-navigation';
+import { createUser } from '../utils/firebase/UserUtils';
 
 class SignInScreen extends React.Component {
   static navigationOptions = {
     title: 'Welcome',
   };
 
+  constructor(props) {
+    super(props);
+    this.createNewUser = this.createNewUser.bind(this);
+    this.state = {
+      loading: false
+    }
+  }
+
+  private async createNewUser() {
+    this.setState({loading: true});
+    const name = this.props.navigation.getParam('name', 'user');
+    let userToken = await signInWithGoogleAsync();
+    let userId = await createUser(name);
+    this.props.navigation.navigate('GroupListScreen', {
+      token: userToken,
+      id: userId
+    });
+  };
+
   render() {
+    const name = this.props.navigation.getParam('name', 'user');
+
+    let bottomButtonOrLoading =
+    <BottomButton
+      buttonAction={this.createNewUser}
+      buttonText='Login With Google'
+      buttonFilled={false}
+    />;
+
+    if(this.state.loading) {
+      bottomButtonOrLoading = <ActivityIndicator size='large'/>
+    }
+
     return (
       <View style={styles.container}>
         <Text style={styles.intro}>
-          Thanks! Let's get your calendar info from Google.
+          Thanks, {name}! Let's get your calendar info from Google.
         </Text>
         <View style={styles.buttonActions}>
-        <BottomButton
-          buttonAction={() => {
-            signInWithGoogleAsync();
-            this.props.navigation.navigate('GroupListScreen');
-          }}
-          buttonText='Login With Google'
-          buttonFilled={false}
-        />
+          {bottomButtonOrLoading}
         </View>
       </View>
     );
@@ -114,12 +140,6 @@ async function signInWithGoogleAsync() {
   } catch(e) {
     return {error: true};
   }
-}
-
-async function createNewUser() {
-  // TO DO:
-  // Once firebase is set up, create a unique memberID for each user and store
-  // in firebase.
 }
 
 const styles = StyleSheet.create({
