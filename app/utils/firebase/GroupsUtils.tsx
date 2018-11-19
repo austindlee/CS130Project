@@ -6,6 +6,15 @@ import randInt from '../FirebaseUtils';
 import 'firebase/firestore';
 
 /**
+ * Generates a unique nine digit code for group creation
+ * @return string containing a nine digit code
+ */
+function generatePasscode(): string {
+  let newPass = randInt(100000000,999999999).toString();
+  return newPass;
+}
+
+/**
  * Function that creates a new group and stores it in firestore
  * @param groupName will be the name of the new group, it is a string
  * @param creator is the userID: string of the person who created the group and will be the first member of the group
@@ -18,7 +27,15 @@ export async function createGroup(groupName: string, creator: string) {
   };
 
   db.settings(settings);
-  var passcode = randInt(100000000,999999999);
+
+  let isUniquePasscode = false;
+  let passcode = '';
+  while (!isUniquePasscode) {
+    passcode = generatePasscode();
+    let docRef = await db.collection('groups').doc(passcode).get();
+    if(!docRef.exists)
+      isUniquePasscode = true;
+  }
 
   await db.collection('users').doc(creator).update({
     groups: firebase.firestore.FieldValue.arrayUnion(passcode)
