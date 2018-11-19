@@ -18,9 +18,11 @@ export async function createUser(username: string) {
   db.settings(settings);
 
   // add user to collection
-  return await db.collection('users').add({
+  let newID = await db.collection('users').add({
     username
-  })
+  });
+
+  return newID;
 }
 
 /**
@@ -40,9 +42,14 @@ export async function getUsersGroups(userID: string) {
   let groups : string[] = [];
   await db.collection('users').doc(userID).get().then((doc) => {
     if(doc.exists) {
-      doc.data().groups.forEach((groupId: string) => {
-        groups.push(groupId);
-      })
+      if(doc.data().groups) {
+        doc.data().groups.forEach((groupId: string) => {
+          groups.push(groupId);
+        })
+      }
+      else {
+        return groups;
+      }
     }
     else {
       console.log("Can't find user");
