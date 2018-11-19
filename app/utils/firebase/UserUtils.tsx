@@ -18,11 +18,11 @@ export async function createUser(username: string) {
   db.settings(settings);
 
   // add user to collection
-  let newID = await db.collection('users').add({
+  let newIDRef = await db.collection('users').add({
     username
   });
 
-  return newID;
+  return newIDRef.id;
 }
 
 /**

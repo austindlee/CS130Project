@@ -16,13 +16,18 @@ export async function createGroup(groupName: string, creator: string) {
   const settings = {
       timestampsInSnapshots: true
   };
+
   db.settings(settings);
   var passcode = randInt(100000000,999999999);
+
+  await db.collection('users').doc(creator).update({
+    groups: firebase.firestore.FieldValue.arrayUnion(passcode)
+  });
+
   var users = [];
   users.push(creator);
-  await db.collection('groups').add({
+  await db.collection('groups').doc(passcode.toString()).set({
     name: groupName,
-    passcode: passcode,
     users: users
   })
   return passcode;
@@ -56,5 +61,16 @@ export async function joinGroup(userID: string, groupID: string) {
     console.log('Could not grab group based on groupID');
     return false;
   });
+
+  await db.collection('users').doc(userID).update({
+    groups: firebase.firestore.FieldValue.arrayUnion(groupID)
+  });
   return true;
+}
+
+export async function getGroupInfo(groupID: string) {
+  const db = firebase.firestore();
+  const settings = {
+    timestampsInSnapshots: true
+  }
 }
