@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert, Button, StyleSheet, Text, View, TextInput, ActivityIndicator } from 'react-native';
 import BottomButton from '../components/BottomButton';
+import * as Expo from 'expo';
 import { createStackNavigator } from 'react-navigation';
 import { createUser } from '../utils/firebase/UserUtils';
 
@@ -22,10 +23,8 @@ class SignInScreen extends React.Component {
     const name = this.props.navigation.getParam('name', 'user');
     let userToken = await signInWithGoogleAsync();
     let userId = await createUser(name);
-    this.props.navigation.navigate('GroupListScreen', {
-      token: userToken,
-      id: userId
-    });
+    await Expo.SecureStore.setItemAsync('localUserID', userId.toString());
+    this.props.navigation.navigate('GroupListScreen');
   };
 
   render() {

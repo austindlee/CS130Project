@@ -2,6 +2,8 @@ import React from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, ActivityIndicator } from 'react-native';
 import BottomButton from '../components/BottomButton';
 import GlobalStyles from '../globals/GlobalStyles';
+import { joinGroup } from '../utils/firebase/GroupsUtils';
+import * as Expo from 'expo';
 
 class JoinGroupScreen extends React.Component {
   static navigationOptions = {
@@ -22,13 +24,18 @@ class JoinGroupScreen extends React.Component {
     }
   }
 
-  checkGroupNumber(): void {
+  async checkGroupNumber() {
     console.log('submit text');
-
-    // TODO: Replace this with submitting group name
-    // state while its loading with an indicator
     this.setState({loading: true});
-    // this.props.navigation.navigate('GroupListScreen');
+    let userID = await Expo.SecureStore.getItemAsync('localUserID');
+    let validGroup = await joinGroup(userID, this.state.text);
+
+    if(validGroup) {
+      console.log('write code');
+      this.props.navigation.navigate('GroupListScreen', {refreshProps: true});
+    } else {
+      this.setState({wrongGroupCode: true, loading: false});
+    }
   }
 
   render(){
@@ -40,7 +47,7 @@ class JoinGroupScreen extends React.Component {
     let textInputOrLoading =
       <TextInput
         placeholder='Enter group number'
-        maxLength={6}
+        maxLength={9}
         onChangeText={(text)=> this.setState({text})}
         onSubmitEditing={this.checkGroupNumber}
         keyboardType='numeric'

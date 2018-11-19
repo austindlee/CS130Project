@@ -1,9 +1,11 @@
 import React from 'react';
-import { Alert, Button, FlatList, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Button, FlatList, KeyboardAvoidingView, StyleSheet, Text, TextInput, View, ActivityIndicator } from 'react-native';
 import BottomButton from '../components/BottomButton';
 import GroupCard from '../components/GroupCard';
 import { StackActions, NavigationActions } from 'react-navigation';
 import GlobalStyles from '../globals/GlobalStyles';
+import * as Expo from 'expo';
+import { createGroup } from '../utils/firebase/GroupsUtils';
 
 class CreateGroupScreen extends React.Component {
   static navigationOptions = {
@@ -19,30 +21,40 @@ class CreateGroupScreen extends React.Component {
 
     this.submitGroupName = this.submitGroupName.bind(this);
     this.state = {
-      text: ''
+      text: '',
+      isLoading: false
     }
   }
 
-  submitGroupName(): void {
+  async submitGroupName() {
     console.log('submit text');
 
+    this.setState({isLoading: true});
+    let currentUser = await Expo.SecureStore.getItemAsync('localUserID');
+    let groupID = await createGroup(this.state.text, currentUser);
     // TODO: Replace this with submitting group name
     // state while its loading with an indicator
 
-    this.props.navigation.navigate('GroupListScreen');
+    this.props.navigation.navigate('ShareGroupScreen', {'groupCode': groupID});
   }
 
   render(){
+    let textInputOrLoading =
+      <TextInput
+        placeholder='Enter group name'
+        maxLength={40}
+        onChangeText={(text)=> this.setState({text})}
+        onSubmitEditing={this.submitGroupName}
+        style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}
+      />;
+    if(this.state.isLoading) {
+      textInputOrLoading = <ActivityIndicator size='large'/>
+    }
+
     return(
       <KeyboardAvoidingView style={styles.container}>
         <Text style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}>What do you want to name the group?</Text>
-        <TextInput
-          placeholder='Enter group name'
-          maxLength={40}
-          onChangeText={(text)=> this.setState({text})}
-          onSubmitEditing={this.submitGroupName}
-          style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}
-        />
+        {textInputOrLoading}
       </KeyboardAvoidingView>
     )
   }

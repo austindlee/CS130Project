@@ -41,7 +41,7 @@ export async function createGroup(groupName: string, creator: string) {
     groups: firebase.firestore.FieldValue.arrayUnion(passcode)
   });
 
-  var users = [];
+  let users = [];
   users.push(creator);
   await db.collection('groups').doc(passcode.toString()).set({
     name: groupName,
@@ -62,32 +62,51 @@ export async function joinGroup(userID: string, groupID: string) {
       timestampsInSnapshots: true
   };
   db.settings(settings);
-  var users = [];
-  await db.collection('groups').doc(groupID).get().then(function(doc) {
+  let users = [];
+
+  try {
+    let doc = await db.collection('groups').doc(groupID).get();
     if(doc.exists) {
-      users = doc.data().users;
-      users.push(userID);
+      // This call can be blocking - no ned for async/await
       db.collection('groups').doc(groupID).update({
-        users: users
+        users: firebase.firestore.FieldValue.arrayUnion(userID)
       });
+
+      // This call can be blocking - no need for async/await
+      db.collection('users').doc(userID).update({
+        groups: firebase.firestore.FieldValue.arrayUnion(groupID)
+      });
+      return true;
     } else {
-      console.log('Document does not exist');
       return false;
     }
-  }).catch(function(error) {
+  } catch (err) {
     console.log('Could not grab group based on groupID');
     return false;
-  });
-
-  await db.collection('users').doc(userID).update({
-    groups: firebase.firestore.FieldValue.arrayUnion(groupID)
-  });
-  return true;
+  }
 }
 
+/**
+ * Function to retrieve a group and associated information
+ * @param groupID A unique nine digit number representing the group
+ * @return a JSON collection representing the group attributes
+ */
 export async function getGroupInfo(groupID: string) {
   const db = firebase.firestore();
   const settings = {
     timestampsInSnapshots: true
+  }
+
+  try {
+    let doc = await db.collection('groups').doc(groupID).get();
+    if(doc.exists) {
+      console.log(doc.data());
+      return doc.data();
+    } else {
+      return null;
+    }
+  } catch (err) {
+    console.log('Could not get group info based on groupID');
+    return null;
   }
 }
