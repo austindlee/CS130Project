@@ -32,7 +32,7 @@ class NameScreen extends React.Component {
             if (this.state.text === '') {
               alert('Please enter valid name.')
             } else {
-              this.props.navigation.navigate('SignInScreen');
+              this.props.navigation.navigate('SignInScreen', {name: this.state.text});
             }
           }}
         />

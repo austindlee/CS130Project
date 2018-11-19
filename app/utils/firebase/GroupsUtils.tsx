@@ -6,6 +6,15 @@ import randInt from '../FirebaseUtils';
 import 'firebase/firestore';
 
 /**
+ * Generates a unique nine digit code for group creation
+ * @return string containing a nine digit code
+ */
+function generatePasscode(): string {
+  let newPass = randInt(100000000,999999999).toString();
+  return newPass;
+}
+
+/**
  * Function that creates a new group and stores it in firestore
  * @param groupName will be the name of the new group, it is a string
  * @param creator is the userID: string of the person who created the group and will be the first member of the group
@@ -16,13 +25,26 @@ export async function createGroup(groupName: string, creator: string) {
   const settings = {
       timestampsInSnapshots: true
   };
+
   db.settings(settings);
-  var passcode = randInt(100000000,999999999);
-  var users = [];
+
+  let isUniquePasscode = false;
+  let passcode = '';
+  while (!isUniquePasscode) {
+    passcode = generatePasscode();
+    let docRef = await db.collection('groups').doc(passcode).get();
+    if(!docRef.exists)
+      isUniquePasscode = true;
+  }
+
+  await db.collection('users').doc(creator).update({
+    groups: firebase.firestore.FieldValue.arrayUnion(passcode)
+  });
+
+  let users = [];
   users.push(creator);
-  await db.collection('groups').add({
+  await db.collection('groups').doc(passcode.toString()).set({
     name: groupName,
-    passcode: passcode,
     users: users
   })
   return passcode;
@@ -40,21 +62,51 @@ export async function joinGroup(userID: string, groupID: string) {
       timestampsInSnapshots: true
   };
   db.settings(settings);
-  var users = [];
-  await db.collection('groups').doc(groupID).get().then(function(doc) {
+  let users = [];
+
+  try {
+    let doc = await db.collection('groups').doc(groupID).get();
     if(doc.exists) {
-      users = doc.data().users;
-      users.push(userID);
+      // This call can be blocking - no ned for async/await
       db.collection('groups').doc(groupID).update({
-        users: users
+        users: firebase.firestore.FieldValue.arrayUnion(userID)
       });
+
+      // This call can be blocking - no need for async/await
+      db.collection('users').doc(userID).update({
+        groups: firebase.firestore.FieldValue.arrayUnion(groupID)
+      });
+      return true;
     } else {
-      console.log('Document does not exist');
       return false;
     }
-  }).catch(function(error) {
+  } catch (err) {
     console.log('Could not grab group based on groupID');
     return false;
-  });
-  return true;
+  }
+}
+
+/**
+ * Function to retrieve a group and associated information
+ * @param groupID A unique nine digit number representing the group
+ * @return a JSON collection representing the group attributes
+ */
+export async function getGroupInfo(groupID: string) {
+  const db = firebase.firestore();
+  const settings = {
+    timestampsInSnapshots: true
+  }
+
+  try {
+    let doc = await db.collection('groups').doc(groupID).get();
+    if(doc.exists) {
+      console.log(doc.data());
+      return doc.data();
+    } else {
+      return null;
+    }
+  } catch (err) {
+    console.log('Could not get group info based on groupID');
+    return null;
+  }
 }

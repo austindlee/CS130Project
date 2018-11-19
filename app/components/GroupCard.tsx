@@ -102,6 +102,7 @@ const styles = StyleSheet.create(
     },
     badgeContainer: {
       backgroundColor: '#000',
+      marginTop: 5,
       height: 24,
       borderRadius: 12,
       paddingLeft: 10,
@@ -110,6 +111,7 @@ const styles = StyleSheet.create(
       alignSelf: 'flex-start'
     },
     gradientContainer: {
+      paddingTop: 5,
       padding: 10,
       borderRadius: 12
     }

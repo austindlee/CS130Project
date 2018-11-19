@@ -1,9 +1,9 @@
 import React from 'react';
-import { Alert, Button, FlatList, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, ActivityIndicator } from 'react-native';
 import BottomButton from '../components/BottomButton';
-import GroupCard from '../components/GroupCard';
-import { StackActions, NavigationActions } from 'react-navigation';
 import GlobalStyles from '../globals/GlobalStyles';
+import { joinGroup } from '../utils/firebase/GroupsUtils';
+import * as Expo from 'expo';
 
 class JoinGroupScreen extends React.Component {
   static navigationOptions = {
@@ -18,31 +18,50 @@ class JoinGroupScreen extends React.Component {
 
     this.checkGroupNumber = this.checkGroupNumber.bind(this);
     this.state = {
-      text: ''
+      text: '',
+      wrongGroupCode: false,
+      loading: false
     }
   }
 
-  checkGroupNumber(): void {
+  async checkGroupNumber() {
     console.log('submit text');
+    this.setState({loading: true});
+    let userID = await Expo.SecureStore.getItemAsync('localUserID');
+    let validGroup = await joinGroup(userID, this.state.text);
 
-    // TODO: Replace this with submitting group name
-    // state while its loading with an indicator
-
-    this.props.navigation.navigate('GroupListScreen');
+    if(validGroup) {
+      console.log('write code');
+      this.props.navigation.navigate('GroupListScreen', {refreshProps: true});
+    } else {
+      this.setState({wrongGroupCode: true, loading: false});
+    }
   }
 
   render(){
+    let questionText = 'What\'s the group number?';
+    if(this.state.wrongGroupCode) {
+      questionText = 'Can\'t find that number, please try again';
+    }
+
+    let textInputOrLoading =
+      <TextInput
+        placeholder='Enter group number'
+        maxLength={9}
+        onChangeText={(text)=> this.setState({text})}
+        onSubmitEditing={this.checkGroupNumber}
+        keyboardType='numeric'
+        style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}
+      />;
+
+    if(this.state.loading) {
+      textInputOrLoading = <ActivityIndicator size='large'/>
+    }
+
     return(
       <KeyboardAvoidingView style={styles.container}>
-        <Text style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}>What's the group number?</Text>
-        <TextInput
-          placeholder='Enter group number'
-          maxLength={6}
-          onChangeText={(text)=> this.setState({text})}
-          onSubmitEditing={this.checkGroupNumber}
-          keyboardType='numeric'
-          style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}
-        />
+        <Text style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}>{questionText}</Text>
+        {textInputOrLoading}
       </KeyboardAvoidingView>
     )
   }

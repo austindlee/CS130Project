@@ -4,8 +4,8 @@ import * as Expo from 'expo';
 import BottomButton from '../components/BottomButton';
 import GroupCard from '../components/GroupCard';
 import { createStackNavigator } from 'react-navigation';
-import createUser from '../utils/firebase/UserUtils';
-import getUsersGroups from '../utils/firebase/UserUtils';
+import { createUser } from '../utils/firebase/UserUtils';
+import { getUsersGroups } from '../utils/firebase/UserUtils';
 import GlobalStyles from '../globals/GlobalStyles';
 
 /** Test function passed in to a button */

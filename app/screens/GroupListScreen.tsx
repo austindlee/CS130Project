@@ -3,58 +3,51 @@ import { Alert, Button, FlatList, StyleSheet, Text, View } from 'react-native';
 import BottomButton from '../components/BottomButton';
 import GroupCard from '../components/GroupCard';
 import { createStackNavigator } from 'react-navigation';
+import { getUsersGroups } from '../utils/firebase/UserUtils';
+import { getGroupInfo } from '../utils/firebase/GroupsUtils';
+import * as Expo from 'expo';
+
+type GroupListScreenProps = {
+  refreshProps?: boolean
+}
 
 type GroupListScreenState = {
-  testData: any,
+  groupData: any,
   isLoading: boolean
 }
-class GroupListScreen extends React.Component<{}, GroupListScreenState, {}> {
+
+class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScreenState, {}> {
   constructor(props) {
     super(props);
 
     this.state = {
-      testData: [{
-        key: '0',
-        groupName: 'Test Group 1',
-      },
-      {
-        key: '1',
-        groupName: 'Test Group 2'
-      },
-      {
-        key: '1',
-        groupName: 'Test Group 2'
-      },
-      {
-        key: '1',
-        groupName: 'Test Group 2'
-      },
-      {
-        key: '1',
-        groupName: 'Test Group 2'
-      },
-      {
-        key: '1',
-        groupName: 'Test Group 2'
-      },
-      {
-        key: '1',
-        groupName: 'Test Group 2'
-      },
-      {
-        key: '1',
-        groupName: 'Test Group 2'
-      },
-      {
-        key: '1',
-        groupName: 'Test Group 2'
-      },
-      {
-        key: '1',
-        groupName: 'Test Group 2'
-      }],
-      isLoading: false
+      groupData: [],
+      isLoading: true
     };
+  }
+
+  async componentDidMount() {
+    let userID = await Expo.SecureStore.getItemAsync('localUserID');
+    let groupIDArray = await getUsersGroups(userID);
+    //  use  map?
+    let groupArrayPromises= groupIDArray.map(async (groupID) => {
+      return await getGroupInfo(groupID);
+    })
+    const groupArray = await Promise.all(groupArrayPromises);
+    this.setState({groupData: groupArray});
+  }
+
+  async componentWillReceiveProps(nextProps) {
+    if(nextProps.navigation.state.params.refreshProps) {
+      let userID = await Expo.SecureStore.getItemAsync('localUserID');
+      let groupIDArray = await getUsersGroups(userID);
+      //  use  map?
+      let groupArrayPromises= groupIDArray.map(async (groupID) => {
+        return await getGroupInfo(groupID);
+      })
+      const groupArray = await Promise.all(groupArrayPromises);
+      this.setState({groupData: groupArray});
+    }
   }
 
   static navigationOptions = {
@@ -66,8 +59,8 @@ class GroupListScreen extends React.Component<{}, GroupListScreenState, {}> {
       <View style={styles.container}>
         <View style={styles.listContainer}>
           <FlatList
-            data={this.state.testData}
-            renderItem={({item}) => <GroupCard groupName={item.groupName}></GroupCard>}
+            data={this.state.groupData}
+            renderItem={({item}) => <GroupCard groupName={item.name}></GroupCard>}
           />
         </View>
         <View style={styles.buttonActions}>
