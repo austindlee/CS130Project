@@ -21,7 +21,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "host.exp.exponent",
+      "supportsTablet": true,
+    },
+    "android": {
+      "package": "com.exp.planit"
     }
   }
 }
