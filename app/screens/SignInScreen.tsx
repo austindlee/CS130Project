@@ -123,6 +123,7 @@ async function signInWithGoogleAsync() {
     const result = await Expo.Google.logInAsync({
       androidClientId: "9082209040-2um3lmf7kfh1enpabk5o6igiump72ppi.apps.googleusercontent.com",
       iosClientId: "9082209040-hlvr3h8uc9e8buaej5mphgv4lmvihpuf.apps.googleusercontent.com",
+      behavior: "web",
       scopes: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'],
     });
     console.log("result type", result.type);
