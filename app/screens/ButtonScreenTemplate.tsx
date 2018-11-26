@@ -2,7 +2,6 @@ import React from 'react';
 import { Alert, Button, FlatList, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import BottomButton from '../components/BottomButton';
 import GroupCard from '../components/GroupCard';
-import { createStackNavigator } from 'react-navigation';
 import { getUsersGroups } from '../utils/firebase/UserUtils';
 import { getGroupInfo } from '../utils/firebase/GroupsUtils';
 import * as Expo from 'expo';
@@ -16,7 +15,7 @@ type GroupListScreenState = {
   isLoading: boolean
 }
 
-class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScreenState, {}> {
+class ButtonScreenTemplate extends React.Component<GroupListScreenProps, GroupListScreenState, {}> {
   constructor(props) {
     super(props);
 
@@ -106,4 +105,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default GroupListScreen
+export default ButtonScreenTemplate
