@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import BottomButton from '../components/BottomButton';
 import * as Expo from 'expo';
+import GlobalStyles from '../globals/GlobalStyles';
+import { timingSafeEqual } from 'crypto';
 
 type ButtonScreenTemplateProps = {
   /** Text that should be displayed on the top button */
@@ -12,9 +14,37 @@ type ButtonScreenTemplateProps = {
   bottomButtonText: string,
   /** Function that should be called on the bottom/only button onPress */
   bottomButtonFunction: Function
+  /** Dark mode gives the view a purple background */
+  darkBackground?: boolean
+  /** Centered mode centers the buttons within the view */
+  centeredButtons?: boolean
 }
 
 class ButtonScreenTemplate extends React.Component<ButtonScreenTemplateProps> {
+  constructor(props: ButtonScreenTemplateProps) {
+    super(props);
+    this.backgroundColorStyle = this.backgroundColorStyle.bind(this);
+    this.centeredStyleJustify = this.centeredStyleJustify.bind(this);
+    this.centeredStyleFlex = this.centeredStyleFlex.bind(this);
+    this.buttonContainerHeight = this.buttonContainerHeight.bind(this);
+  }
+
+  private backgroundColorStyle(): Object {
+    return (this.props.darkBackground? {backgroundColor: GlobalStyles.color.purple}: {backgroundColor: GlobalStyles.color.white});
+  }
+
+  private centeredStyleJustify(): Object {
+    return (this.props.centeredButtons ? {justifyContent: 'center'} : {justifyContent: 'space-between'});
+  }
+
+  private centeredStyleFlex(): Object {
+    return (this.props.centeredButtons ? {} : {flex: 1});
+  }
+
+  private buttonContainerHeight(): Object {
+    return (this.props.topButtonText ? {height: 130} : {height: 60});
+  }
+
   render() {
     let topButton;
     if(this.props.topButtonText || this.props.topButtonFunction) {
@@ -25,11 +55,11 @@ class ButtonScreenTemplate extends React.Component<ButtonScreenTemplateProps> {
         />
     }
     return (
-      <View style={styles.container}>
-        <View style={styles.listContainer}>
+      <View style={[styles.container, this.centeredStyleJustify(), this.backgroundColorStyle()]}>
+        <View style={this.centeredStyleFlex()}>
           {this.props.children}
         </View>
-        <View style={this.props.topButtonText ? [twoButtons, styles] : [oneButton, styles]}>
+        <View style={[styles.buttonContainer, this.buttonContainerHeight()]}>
           {topButton}
           <BottomButton
             buttonAction={this.props.bottomButtonFunction}
@@ -42,37 +72,17 @@ class ButtonScreenTemplate extends React.Component<ButtonScreenTemplateProps> {
   }
 }
 
-const oneButton = StyleSheet.create({
-  buttonActions: {
-    height: 60,
-    alignSelf: 'stretch'
-  }
-})
-
-const twoButtons = StyleSheet.create({
-  buttonActions: {
-    height: 130,
-    alignSelf: 'stretch'
-  }
-})
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     padding: 10,
-    paddingTop: 0,
-    justifyContent: 'space-between'
+    paddingTop: 0
   },
   lastButtonMargin: {
     marginTop: 10
   },
-  buttonActions: {
-    height: 130,
-    alignSelf: 'stretch',
-  },
-  listContainer: {
-    flex: 1
+  buttonContainer: {
+    alignSelf: 'stretch'
   }
 });
 
