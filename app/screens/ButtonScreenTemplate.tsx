@@ -29,7 +29,7 @@ class ButtonScreenTemplate extends React.Component<ButtonScreenTemplateProps> {
         <View style={styles.listContainer}>
           {this.props.children}
         </View>
-        <View style={styles.buttonActions}>
+        <View style={this.props.topButtonText ? [twoButtons, styles] : [oneButton, styles]}>
           {topButton}
           <BottomButton
             buttonAction={this.props.bottomButtonFunction}
@@ -41,6 +41,20 @@ class ButtonScreenTemplate extends React.Component<ButtonScreenTemplateProps> {
     );
   }
 }
+
+const oneButton = StyleSheet.create({
+  buttonActions: {
+    height: 60,
+    alignSelf: 'stretch'
+  }
+})
+
+const twoButtons = StyleSheet.create({
+  buttonActions: {
+    height: 130,
+    alignSelf: 'stretch'
+  }
+})
 
 const styles = StyleSheet.create({
   container: {
