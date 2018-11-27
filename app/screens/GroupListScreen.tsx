@@ -1,11 +1,10 @@
 import React from 'react';
-import { Alert, Button, FlatList, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import BottomButton from '../components/BottomButton';
+import { FlatList, ActivityIndicator } from 'react-native';
 import GroupCard from '../components/GroupCard';
-import { createStackNavigator } from 'react-navigation';
 import { getUsersGroups } from '../utils/firebase/UserUtils';
 import { getGroupInfo } from '../utils/firebase/GroupsUtils';
 import * as Expo from 'expo';
+import ButtonScreenTemplate from './ButtonScreenTemplate';
 
 type GroupListScreenProps = {
   refreshProps?: boolean
@@ -61,49 +60,20 @@ class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScr
       loadingIndicator = <ActivityIndicator size='large'/>
     }
     return (
-      <View style={styles.container}>
-        <View style={styles.listContainer}>
-          {loadingIndicator}
+      <ButtonScreenTemplate
+        topButtonText='Create Group'
+        topButtonFunction={()=> this.props.navigation.navigate('CreateGroupScreen')}
+        bottomButtonText='Join Group'
+        bottomButtonFunction={()=> this.props.navigation.navigate('JoinGroupScreen')}
+      >
+        {loadingIndicator}
           <FlatList
             data={this.state.groupData}
             renderItem={({item}) => <GroupCard groupName={item.name}></GroupCard>}
           />
-        </View>
-        <View style={styles.buttonActions}>
-          <BottomButton
-            buttonAction={()=> this.props.navigation.navigate('CreateGroupScreen')}
-            buttonText='Create Group'
-            buttonFilled={false}
-          />
-          <BottomButton
-            buttonAction={()=> this.props.navigation.navigate('JoinGroupScreen')}
-            buttonText='Join Group'
-            buttonFilled={true}
-          />
-        </View>
-      </View>
+      </ButtonScreenTemplate>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 10,
-    paddingTop: 0,
-    justifyContent: 'space-between'
-  },
-  lastButtonMargin: {
-    marginTop: 10
-  },
-  buttonActions: {
-    height: 130,
-    alignSelf: 'stretch',
-  },
-  listContainer: {
-    flex: 1
-  }
-});
 
 export default GroupListScreen

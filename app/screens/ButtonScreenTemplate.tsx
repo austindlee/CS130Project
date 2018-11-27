@@ -1,82 +1,39 @@
 import React from 'react';
-import { Alert, Button, FlatList, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import BottomButton from '../components/BottomButton';
-import GroupCard from '../components/GroupCard';
-import { getUsersGroups } from '../utils/firebase/UserUtils';
-import { getGroupInfo } from '../utils/firebase/GroupsUtils';
 import * as Expo from 'expo';
 
-type GroupListScreenProps = {
-  refreshProps?: boolean
+type ButtonScreenTemplateProps = {
+  /** Text that should be displayed on the top button */
+  topButtonText?: string,
+  /** Function that should be called when top button onPress */
+  topButtonFunction?: Function,
+  /** Text that should be displayed on the bottom/only button (filled button) */
+  bottomButtonText: string,
+  /** Function that should be called on the bottom/only button onPress */
+  bottomButtonFunction: Function
 }
 
-type GroupListScreenState = {
-  groupData: any,
-  isLoading: boolean
-}
-
-class ButtonScreenTemplate extends React.Component<GroupListScreenProps, GroupListScreenState, {}> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      groupData: [],
-      isLoading: true
-    };
-  }
-
-  async componentDidMount() {
-    let userID = await Expo.SecureStore.getItemAsync('localUserID');
-    let groupIDArray = await getUsersGroups(userID);
-    //  use  map?
-    let groupArrayPromises= groupIDArray.map(async (groupID) => {
-      return await getGroupInfo(groupID);
-    })
-    const groupArray = await Promise.all(groupArrayPromises);
-    this.setState({groupData: groupArray, isLoading: false});
-  }
-
-  async componentWillReceiveProps(nextProps) {
-    if(nextProps.navigation.state.params.refreshProps) {
-      this.setState({isLoading: true});
-      let userID = await Expo.SecureStore.getItemAsync('localUserID');
-      let groupIDArray = await getUsersGroups(userID);
-      //  use  map?
-      let groupArrayPromises= groupIDArray.map(async (groupID) => {
-        return await getGroupInfo(groupID);
-      })
-      const groupArray = await Promise.all(groupArrayPromises);
-      this.setState({groupData: groupArray, isLoading: false});
-    }
-  }
-
-  static navigationOptions = {
-    title: 'Your Groups',
-  };
-
+class ButtonScreenTemplate extends React.Component<ButtonScreenTemplateProps> {
   render() {
-    let loadingIndicator;
-    if(this.state.isLoading) {
-      loadingIndicator = <ActivityIndicator size='large'/>
+    let topButton;
+    if(this.props.topButtonText || this.props.topButtonFunction) {
+      topButton = <BottomButton
+        buttonAction={this.props.topButtonFunction}
+        buttonText={this.props.topButtonText ? this.props.topButtonText : ''}
+        buttonFilled={false}
+        />
     }
     return (
       <View style={styles.container}>
         <View style={styles.listContainer}>
-          {loadingIndicator}
-          <FlatList
-            data={this.state.groupData}
-            renderItem={({item}) => <GroupCard groupName={item.name}></GroupCard>}
-          />
+          {this.props.children}
         </View>
         <View style={styles.buttonActions}>
+          {topButton}
           <BottomButton
-            buttonAction={()=> this.props.navigation.navigate('CreateGroupScreen')}
-            buttonText='Create Group'
-            buttonFilled={false}
-          />
-          <BottomButton
-            buttonAction={()=> this.props.navigation.navigate('JoinGroupScreen')}
-            buttonText='Join Group'
+            buttonAction={this.props.bottomButtonFunction}
+            buttonText={this.props.bottomButtonText}
             buttonFilled={true}
           />
         </View>
