@@ -1,9 +1,9 @@
 import React from 'react';
-import { Alert, Button, StyleSheet, Text, View, TextInput, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, ActivityIndicator } from 'react-native';
 import BottomButton from '../components/BottomButton';
 import * as Expo from 'expo';
-import { createStackNavigator } from 'react-navigation';
 import { createUser } from '../utils/firebase/UserUtils';
+import ButtonScreenTemplate from './ButtonScreenTemplate';
 
 class SignInScreen extends React.Component {
   static navigationOptions = {
@@ -30,26 +30,23 @@ class SignInScreen extends React.Component {
   render() {
     const name = this.props.navigation.getParam('name', 'user');
 
-    let bottomButtonOrLoading =
-    <BottomButton
-      buttonAction={this.createNewUser}
-      buttonText='Login With Google'
-      buttonFilled={false}
-    />;
+    let textOrLoading =
+    <Text style={styles.intro}>
+      Thanks, {name}! Let's get your calendar info from Google.
+    </Text>;
 
     if(this.state.loading) {
-      bottomButtonOrLoading = <ActivityIndicator size='large'/>
+      textOrLoading = <ActivityIndicator size='large'/>
     }
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.intro}>
-          Thanks, {name}! Let's get your calendar info from Google.
-        </Text>
-        <View style={styles.buttonActions}>
-          {bottomButtonOrLoading}
-        </View>
-      </View>
+      <ButtonScreenTemplate
+        bottomButtonFunction={this.state.loading ? ()=>{} : this.createNewUser}
+        bottomButtonText={this.state.loading ? 'Loading' : 'Login with Google'}
+        darkBackground={true}
+      >
+        {textOrLoading}
+      </ButtonScreenTemplate>
     );
   }
 }
@@ -143,22 +140,11 @@ async function signInWithGoogleAsync() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: GlobalStyles.color.purple,
-    alignItems: 'center',
-
-  },
   intro: {
     fontSize: GlobalStyles.fontSize.large.fontSize,
     fontFamily: GlobalStyles.fontFamily.primaryFontBold.fontFamily,
-    color: GlobalStyles.textColor.white.color,
-    margin: 10,
-  },
-  buttonActions: {
-    height: 130,
-    alignSelf: 'stretch',
-  },
+    color: GlobalStyles.textColor.white.color
+  }
 });
 
 export default SignInScreen
