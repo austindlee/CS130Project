@@ -20,8 +20,8 @@ class SignInScreen extends React.Component {
   private async createNewUser() {
     this.setState({loading: true});
     const name = this.props.navigation.getParam('name', 'user');
-    let userRefreshToken = await signInWithGoogleAsync();
-    let userId = await createUser(name, userRefreshToken);
+    let userInfoObject = await signInWithGoogleAsync();
+    let userId = await createUser(name, userInfoObject);
     await Expo.SecureStore.setItemAsync('localUserID', userId.toString());
     this.props.navigation.navigate('GroupListScreen');
   };
@@ -111,7 +111,7 @@ function testFirebaseSetup() {
 /**
  * Internal asynchronous function that attempts to sign-in to Google via OAuth.
  * @param None
- * @return Access Token of the user that signed in successfully.
+ * @return User Account Info JSON object
  */
 async function signInWithGoogleAsync() {
   try {
@@ -125,11 +125,11 @@ async function signInWithGoogleAsync() {
     console.log("result type", result.type);
 
     if (result.type === 'success') {
-      console.log("was a success")
       console.log(result)
       console.log("ACCESS TOKEN" + result.accessToken)
-      getUserInfo(result.accessToken)
-      return result.accessToken;
+      let response = getUserInfo(result.accessToken)
+
+      return result;
     } else {
       return {cancelled: true};
     }
