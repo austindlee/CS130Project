@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Button, StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, TextInput } from 'react-native';
 import ButtonScreenTemplate from './ButtonScreenTemplate';
 import GlobalStyles from '../globals/GlobalStyles';
 
