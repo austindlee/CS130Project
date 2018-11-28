@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, ActivityIndicator } from 'react-native';
-import BottomButton from '../components/BottomButton';
 import * as Expo from 'expo';
 import { createUser } from '../utils/firebase/UserUtils';
 import ButtonScreenTemplate from './ButtonScreenTemplate';
