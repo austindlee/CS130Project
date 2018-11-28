@@ -1,9 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import BottomButton from '../components/BottomButton';
-import * as Expo from 'expo';
 import GlobalStyles from '../globals/GlobalStyles';
-import { timingSafeEqual } from 'crypto';
 
 type ButtonScreenTemplateProps = {
   /** Text that should be displayed on the top button */
@@ -64,7 +62,7 @@ class ButtonScreenTemplate extends React.Component<ButtonScreenTemplateProps> {
           <BottomButton
             buttonAction={this.props.bottomButtonFunction}
             buttonText={this.props.bottomButtonText}
-            buttonFilled={true}
+            buttonFilled={this.props.darkBackground? false: true}
           />
         </View>
       </View>
