@@ -9,7 +9,7 @@ import 'firebase/firestore';
  * @param username - name of the user
  * @return - the unique userID of the newly created user
  */
-export async function createUser(username: string) {
+export async function createUser(username: string, token: string) {
   // initialize Firestore
   const db = firebase.firestore();
   const settings = {
@@ -19,7 +19,8 @@ export async function createUser(username: string) {
 
   // add user to collection
   let newIDRef = await db.collection('users').add({
-    username
+    username,
+    token
   });
 
   return newIDRef.id;

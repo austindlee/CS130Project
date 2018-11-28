@@ -20,8 +20,8 @@ class SignInScreen extends React.Component {
   private async createNewUser() {
     this.setState({loading: true});
     const name = this.props.navigation.getParam('name', 'user');
-    let userToken = await signInWithGoogleAsync();
-    let userId = await createUser(name);
+    let userRefreshToken = await signInWithGoogleAsync();
+    let userId = await createUser(name, userRefreshToken);
     await Expo.SecureStore.setItemAsync('localUserID', userId.toString());
     this.props.navigation.navigate('GroupListScreen');
   };
