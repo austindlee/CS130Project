@@ -1,6 +1,6 @@
 import React from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, ActivityIndicator } from 'react-native';
-import BottomButton from '../components/BottomButton';
+import { Text, TextInput, ActivityIndicator } from 'react-native';
+import ButtonScreenTemplate from './ButtonScreenTemplate';
 import GlobalStyles from '../globals/GlobalStyles';
 import { joinGroup } from '../utils/firebase/GroupsUtils';
 import * as Expo from 'expo';
@@ -59,21 +59,15 @@ class JoinGroupScreen extends React.Component {
     }
 
     return(
-      <KeyboardAvoidingView style={styles.container}>
+      <ButtonScreenTemplate
+        bottomButtonText='Submit'
+        bottomButtonFunction={this.checkGroupNumber}
+      >
         <Text style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}>{questionText}</Text>
         {textInputOrLoading}
-      </KeyboardAvoidingView>
+      </ButtonScreenTemplate>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    padding: 10
-  }
-});
 
 export default JoinGroupScreen

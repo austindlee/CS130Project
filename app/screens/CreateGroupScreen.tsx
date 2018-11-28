@@ -1,8 +1,6 @@
 import React from 'react';
-import { Alert, Button, FlatList, KeyboardAvoidingView, StyleSheet, Text, TextInput, View, ActivityIndicator } from 'react-native';
-import BottomButton from '../components/BottomButton';
-import GroupCard from '../components/GroupCard';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, ActivityIndicator } from 'react-native';
+import ButtonScreenTemplate from './ButtonScreenTemplate'
 import GlobalStyles from '../globals/GlobalStyles';
 import * as Expo from 'expo';
 import { createGroup } from '../utils/firebase/GroupsUtils';
@@ -52,21 +50,15 @@ class CreateGroupScreen extends React.Component {
     }
 
     return(
-      <KeyboardAvoidingView style={styles.container}>
+      <ButtonScreenTemplate
+        bottomButtonText='Next'
+        bottomButtonFunction={this.submitGroupName}
+      >
         <Text style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}>What do you want to name the group?</Text>
         {textInputOrLoading}
-      </KeyboardAvoidingView>
+      </ButtonScreenTemplate>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    padding: 10
-  }
-})
 
 export default CreateGroupScreen
