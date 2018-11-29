@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, Text, View } from 'react-native';
 import GlobalStyles from '../globals/GlobalStyles';
 import { LinearGradient } from 'expo';
 import * as TimeConversion from '../utils/local/TimeConversion';
-
+import ProfilePhoto from './ProfilePhoto';
 
 /**
  * @param nextEventName - nextEventName - name of the next event for a specific group
@@ -16,12 +16,12 @@ type GroupCardNextEventProps = {
 
 /**
  * @param groupName - groupName - a string representing the name of the group
- * @param groupPhotos - groupPhotos - a JSON object containing the photos of the member in the group
+ * @param groupPhotos - groupPhotos - an array of URLs containing the profile photos in the group
  * @param groupNextEvent - see GroupCardNextEventProps - given if the group has an event coming up
  */
 type GroupCardProps = {
   groupName: string,
-  groupPhotos?: Object,
+  groupPhotos?: string[],
   groupNextEvent?: GroupCardNextEventProps
 }
 
@@ -77,14 +77,22 @@ export default class GroupCard extends React.Component<GroupCardProps> {
       }
     }
 
+    // TODO: Fetch user profile photo information in ComponentDidMount
+    let profilePhotos = this.props.groupPhotos.map((photoURL) => {
+      return <ProfilePhoto />
+    })
+
     return (
       <View style={styles.cardContainer}>
         <LinearGradient
-          colors={GlobalStyles.gradients.green}
+          colors={GlobalStyles.gradients.yellow}
           style={styles.gradientContainer}
           start={[0,0]}
           end={[1,1]}>
         <Text style={[GlobalStyles.fontSize.medium, GlobalStyles.textColor.white, GlobalStyles.fontFamily.primaryFontBold]}>{this.props.groupName}</Text>
+        <View style={styles.profilePhotoContainer}>
+          {profilePhotos}
+        </View>
         <NextEventBadge
           nextEventName='Test Event'
           nextEventDate={testDate}
@@ -114,6 +122,9 @@ const styles = StyleSheet.create(
       paddingTop: 5,
       padding: 10,
       borderRadius: 12
+    },
+    profilePhotoContainer: {
+      flexDirection: 'row'
     }
   }
 );

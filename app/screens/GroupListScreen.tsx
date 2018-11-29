@@ -69,7 +69,7 @@ class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScr
         {loadingIndicator}
           <FlatList
             data={this.state.groupData}
-            renderItem={({item}) => <GroupCard groupName={item.name}></GroupCard>}
+            renderItem={({item}) => <GroupCard groupName={item.name} groupPhotos={['1','2']}></GroupCard>}
           />
       </ButtonScreenTemplate>
     );
