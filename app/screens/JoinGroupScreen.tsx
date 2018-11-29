@@ -51,6 +51,7 @@ class JoinGroupScreen extends React.Component {
         onChangeText={(text)=> this.setState({text})}
         onSubmitEditing={this.checkGroupNumber}
         keyboardType='numeric'
+        returnKeyType='done'
         style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}
       />;
 
