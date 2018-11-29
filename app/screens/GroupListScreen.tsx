@@ -28,8 +28,7 @@ class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScr
   async componentDidMount() {
     let userID = await Expo.SecureStore.getItemAsync('localUserID');
     let groupIDArray = await getUsersGroups(userID);
-    //  use  map?
-    let groupArrayPromises= groupIDArray.map(async (groupID) => {
+    let groupArrayPromises = groupIDArray.map(async (groupID) => {
       return await getGroupInfo(groupID);
     })
     const groupArray = await Promise.all(groupArrayPromises);
@@ -69,7 +68,8 @@ class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScr
         {loadingIndicator}
           <FlatList
             data={this.state.groupData}
-            renderItem={({item}) => <GroupCard groupName={item.name} groupPhotos={['1','2']}></GroupCard>}
+            keyExtractor={(item) => item.name}
+            renderItem={({item}) => <GroupCard groupName={item.name} groupUserId={item.users}></GroupCard>}
           />
       </ButtonScreenTemplate>
     );

@@ -4,6 +4,8 @@ import GlobalStyles from '../globals/GlobalStyles';
 import { LinearGradient } from 'expo';
 import * as TimeConversion from '../utils/local/TimeConversion';
 import ProfilePhoto from './ProfilePhoto';
+import { getGroupInfo } from '../utils/firebase/GroupsUtils';
+import { getUserInfo } from '../utils/firebase/UserUtils';
 
 /**
  * @param nextEventName - nextEventName - name of the next event for a specific group
@@ -16,12 +18,12 @@ type GroupCardNextEventProps = {
 
 /**
  * @param groupName - groupName - a string representing the name of the group
- * @param groupPhotos - groupPhotos - an array of URLs containing the profile photos in the group
+ * @param groupUserId - groupUserId - Ids of all users present in the group
  * @param groupNextEvent - see GroupCardNextEventProps - given if the group has an event coming up
  */
 type GroupCardProps = {
   groupName: string,
-  groupPhotos?: string[],
+  groupUserId: string[],
   groupNextEvent?: GroupCardNextEventProps
 }
 
@@ -63,6 +65,24 @@ class NextEventBadge extends React.Component<GroupCardNextEventProps> {
 export default class GroupCard extends React.Component<GroupCardProps> {
   constructor(props: GroupCardProps) {
     super(props);
+    this.state = {
+      profilePhotosLoading: true,
+      profilePhotoURLs: []
+    }
+  }
+
+  async componentDidMount() {
+    const userPromises = this.props.groupUserId.map(async (id: string) => {
+      return await getUserInfo(id);
+    })
+    const userArray = await Promise.all(userPromises);
+    const userPics = userArray.map((user) => {
+      return (user.photoUrl ? user.photoUrl : '');
+    });
+    this.setState({
+      profilePhotoURLs: userPics,
+      profilePhotosLoading: false
+    });
   }
 
   render() {
@@ -77,10 +97,8 @@ export default class GroupCard extends React.Component<GroupCardProps> {
       }
     }
 
-    // TODO: Fetch user profile photo information in ComponentDidMount
-    let profilePhotos = this.props.groupPhotos.map((photoURL) => {
-      return <ProfilePhoto />
-    })
+    const profilePhotoPlaceholder = this.props.groupUserId.map((e, i) => <ProfilePhoto key={i} />);
+    const profilePhoto = this.state.profilePhotoURLs.map((url: string) => <ProfilePhoto key={url} profilePhotoURL={url}/>);
 
     return (
       <View style={styles.cardContainer}>
@@ -91,7 +109,7 @@ export default class GroupCard extends React.Component<GroupCardProps> {
           end={[1,1]}>
         <Text style={[GlobalStyles.fontSize.medium, GlobalStyles.textColor.white, GlobalStyles.fontFamily.primaryFontBold]}>{this.props.groupName}</Text>
         <View style={styles.profilePhotoContainer}>
-          {profilePhotos}
+          {this.state.profilePhotosLoading ? profilePhotoPlaceholder : profilePhoto}
         </View>
         <NextEventBadge
           nextEventName='Test Event'
