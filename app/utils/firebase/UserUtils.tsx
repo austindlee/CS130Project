@@ -79,6 +79,32 @@ export async function getUsersGroups(userID: string) {
   return groups;
 }
 
+/**
+ * Returns relevant user information
+ * @param userID unique user identification number represented in string form
+ * @return a JSON object with the user's name, groups and profile photo
+ */
+export async function getUserInfo(userID: string) {
+  const db = firebase.firestore();
+  const settings = {
+    timestampsInSnapshots: true
+  };
+  db.settings(settings);
+
+  try {
+    let doc = await db.collection('users').doc(userID).get();
+    if(doc.exists) {
+      console.log(doc.data());
+      return doc.data();
+    } else {
+      return null;
+    }
+  } catch (err) {
+    console.log('Could not get group info based on groupID');
+    return null;
+  }
+}
+
 // export default function deleteUser(userID: number) {
 
 // }
