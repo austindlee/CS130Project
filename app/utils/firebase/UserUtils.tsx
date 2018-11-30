@@ -105,6 +105,43 @@ export async function getUserInfo(userID: string) {
   }
 }
 
+/**
+ * Gets a new access token for a User using their refresh token (user must be in our database)
+ * @param userID unique user identification number represented in string form
+ * @return a new Access Token for the User
+ */
+export async function getNewToken(userID: string) {
+  const db = firebase.firestore();
+  const settings = {
+    timestampsInSnapshots: true
+  };
+  db.settings(settings);
+  await db.collection('users').doc(userID).get().then((doc) => {
+    if(doc.exists) {
+      let refreshToken = doc.data().refreshToken;
+      fetch('https://www.googleapis.com/oauth2/v4/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      body:"client_id=9082209040-hlvr3h8uc9e8buaej5mphgv4lmvihpuf.apps.googleusercontent.com&client_secret=&refresh_token=" + refreshToken + "&grant_type=refresh_token"
+      })
+      .then(response => {
+        return response.json();
+      })
+      .then (responseJSON => {
+        console.log("Response...: ", responseJSON);
+        console.log(responseJSON.access_token)
+        return responseJSON.access_token;
+      });
+    }
+    else {
+      console.log("Can't find user to get refreshToken");
+      return null;
+    }
+  });
+}
+
 // export default function deleteUser(userID: number) {
 
 // }
