@@ -36,31 +36,20 @@ class SignInScreen extends React.Component {
         let refreshToken = doc.data().refreshToken;
 
         let idArray = [];
-        console.log(accessToken);
-        await fetch('https://www.googleapis.com/oauth2/v4/token', {
+        console.log("client_id=9082209040-hlvr3h8uc9e8buaej5mphgv4lmvihpuf.apps.googleusercontent.com&client_secret=&refresh_token=" + refreshToken + "&grant_type=refresh_token")
+        fetch('https://www.googleapis.com/oauth2/v4/token', {
         method: 'POST',
         headers: {
-          Accept: 'application/json',
           'Content-Type': 'application/x-www-form-urlencoded',
           },
-        body: 
-          JSON.stringify({
-            client_id: '9082209040-hlvr3h8uc9e8buaej5mphgv4lmvihpuf.apps.googleusercontent.com',
-            client_secret: '',
-            refresh_token: refreshToken,
-            grant_type: 'refresh_token'
-          })
+        body:"client_id=9082209040-hlvr3h8uc9e8buaej5mphgv4lmvihpuf.apps.googleusercontent.com&client_secret=&refresh_token=" + refreshToken + "&grant_type=refresh_token"
         })
         .then(response => {
           return response.json();
         })
         .then (responseJSON => {
-          console.log(responseJSON);
-          console.log(responseJSON.items);
-          responseJSON.items.forEach(function(element) {
-            console.log(element.id);
-            idArray.push(element.id);
-          });
+          console.log("Response...: ", responseJSON);
+          console.log(responseJSON.access_token)
         });
         console.log(idArray);
 
@@ -69,6 +58,7 @@ class SignInScreen extends React.Component {
         console.log("Can't find user to get refreshToken");
       }
     });
+
 
     await Expo.SecureStore.setItemAsync('localUserID', userId.toString());
     this.props.navigation.navigate('GroupListScreen');
