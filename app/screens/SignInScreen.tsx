@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, ActivityIndicator } from 'react-native';
 import * as Expo from 'expo';
-import { createUser } from '../utils/firebase/UserUtils';
+import { createUser, getNewToken } from '../utils/firebase/UserUtils';
 import ButtonScreenTemplate from './ButtonScreenTemplate';
 import firebase, { firestore } from 'firebase';
 import 'firebase/firestore';
@@ -24,42 +24,8 @@ class SignInScreen extends React.Component {
     const name = this.props.navigation.getParam('name', 'user');
     let userInfoObject = await signInWithGoogleAsync();
     let userId = await createUser(name, userInfoObject);
-
-
-    const db = firebase.firestore();
-    const settings = {
-      timestampsInSnapshots: true
-    };
-    db.settings(settings);
-    await db.collection('users').doc(userId).get().then((doc) => {
-      if(doc.exists) {
-        let refreshToken = doc.data().refreshToken;
-
-        let idArray = [];
-        console.log("client_id=9082209040-hlvr3h8uc9e8buaej5mphgv4lmvihpuf.apps.googleusercontent.com&client_secret=&refresh_token=" + refreshToken + "&grant_type=refresh_token")
-        fetch('https://www.googleapis.com/oauth2/v4/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        body:"client_id=9082209040-hlvr3h8uc9e8buaej5mphgv4lmvihpuf.apps.googleusercontent.com&client_secret=&refresh_token=" + refreshToken + "&grant_type=refresh_token"
-        })
-        .then(response => {
-          return response.json();
-        })
-        .then (responseJSON => {
-          console.log("Response...: ", responseJSON);
-          console.log(responseJSON.access_token)
-        });
-        console.log(idArray);
-
-      }
-      else {
-        console.log("Can't find user to get refreshToken");
-      }
-    });
-
-
+    let token = await getNewToken(userId);
+    
     await Expo.SecureStore.setItemAsync('localUserID', userId.toString());
     this.props.navigation.navigate('GroupListScreen');
   };
