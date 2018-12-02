@@ -50,6 +50,7 @@ class GroupScreen extends React.Component {
     return (
       <ButtonScreenTemplate
         bottomButtonText='Plan event'
+        bottomButtonFunction={()=> this.props.navigation.navigate('EventCreationTimeScreen', {groupName: groupName})}
         darkBackground={false}
       >
       <View style={styles.background}>

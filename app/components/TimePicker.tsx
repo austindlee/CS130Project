@@ -41,7 +41,8 @@ class TimePicker extends React.Component {
    * @param dayNumber
    */
   handlePress(dayNumber: number) {
-    this.setState({currentlySelected: dayNumber})
+    this.setState({currentlySelected: dayNumber});
+    this.props.onSelectButton(dayNumber);
   }
 
   /**

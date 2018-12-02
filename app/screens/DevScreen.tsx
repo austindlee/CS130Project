@@ -23,6 +23,10 @@ class DevScreen extends React.Component {
           title='Busy Finder'
           onPress={() => this.props.navigation.navigate('FindTimeScreen')}
         />
+        <Button
+          title='Event Creation'
+          onPress={() => this.props.navigation.navigate('EventCreationScreen')}
+        />
       </View>
     );
   }
