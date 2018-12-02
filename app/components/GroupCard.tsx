@@ -125,7 +125,10 @@ export default class GroupCard extends React.Component<GroupCardProps> {
 const styles = StyleSheet.create(
   {
     cardContainer: {
-      marginBottom: 10
+      marginBottom: 10,
+      paddingTop: 10,
+      paddingLeft: 10,
+      paddingRight: 10,
     },
     badgeContainer: {
       backgroundColor: '#000',
