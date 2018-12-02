@@ -19,6 +19,10 @@ class DevScreen extends React.Component {
           title='Group List Screen'
           onPress={() => this.props.navigation.navigate('GroupListScreen')}
         />
+        <Button
+          title='Event Creation'
+          onPress={() => this.props.navigation.navigate('EventCreationScreen')}
+        />
       </View>
     );
   }
