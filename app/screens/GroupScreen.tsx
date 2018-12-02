@@ -47,6 +47,7 @@ class GroupScreen extends React.Component {
     const profilePhotoPlaceholder = <ProfilePhoto />;
     const profilePhoto = this.state.profilePhotoURLs.map((url: string) => <ProfilePhoto key={url} profilePhotoURL={url}/>);
 
+    const groupColor = this.props.navigation.getParam('color', 0);
     return (
       <ButtonScreenTemplate
         bottomButtonText='Plan event'
@@ -55,7 +56,7 @@ class GroupScreen extends React.Component {
       >
       <View style={styles.background}>
         <LinearGradient
-          colors={GlobalStyles.gradients.purple}
+          colors={GlobalStyles.gradientsArray[groupColor]}
           style={styles.gradientContainer}
           start={[0,0]}
           end={[1,1]}>
@@ -67,7 +68,7 @@ class GroupScreen extends React.Component {
           {this.state.profilePhotosLoading ? profilePhotoPlaceholder : profilePhoto}
         </View>
         <LinearGradient
-          colors={GlobalStyles.gradients.purple}
+          colors={GlobalStyles.gradientsArray[groupColor]}
           style={styles.separator}
           start={[0,0]}
           end={[1,1]} />
