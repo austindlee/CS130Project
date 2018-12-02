@@ -1,6 +1,7 @@
 import React from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, Platform, View } from 'react-native';
 import BottomButton from './components/BottomButton';
+import * as Expo from 'expo';
 import { Font } from 'expo';
 import DevScreen from './screens/DevScreen';
 import { createStackNavigator } from 'react-navigation';
@@ -63,6 +64,12 @@ export default class App extends React.Component {
       'karla-regular': require('./assets/fonts/Karla-Regular.ttf'),
       'karla-bold': require('./assets/fonts/Karla-Bold.ttf')
     });
+    if (Platform.OS === 'android') {
+      Expo.Notifications.createChannelAndroidAsync('chat-messages', {
+        name: 'Chat messages',
+        sound: true,
+      });
+    }
   }
   render() {
     return (
