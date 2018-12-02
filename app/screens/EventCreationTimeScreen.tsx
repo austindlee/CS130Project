@@ -38,7 +38,11 @@ class EventCreationTimeScreen extends React.Component<EventCreationTimeScreenSta
     return (
       <ButtonScreenTemplate
         bottomButtonText='Next'
-        bottomButtonFunction={()=> this.props.navigation.navigate('EventCreationDateRangeScreen', {timeOfDayNumber: this.state.timeOfDayNumber, groupName: this.props.navigation.state.params.groupName})}
+        bottomButtonFunction={()=> this.props.navigation.navigate('EventCreationDateRangeScreen', {
+          timeOfDayNumber: this.state.timeOfDayNumber,
+          groupName: this.props.navigation.state.params.groupName,
+          groupId: this.props.navigation.state.params.groupId,
+        })}
       >
         <View style={styles.background}>
           {loadingIndicator}

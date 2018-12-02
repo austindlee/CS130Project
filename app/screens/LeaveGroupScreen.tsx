@@ -3,6 +3,7 @@ import { FlatList, ActivityIndicator, Text } from 'react-native';
 import * as Expo from 'expo';
 import ButtonScreenTemplate from './ButtonScreenTemplate';
 import GlobalStyles from '../globals/GlobalStyles';
+import { removeFromGroup } from '../utils/firebase/GroupsUtils';
 
 type EventCreationOptionsScreenState = {
   isLoading: boolean
@@ -11,6 +12,7 @@ type EventCreationOptionsScreenState = {
 class EventCreationOptionsScreen extends React.Component<EventCreationOptionsScreenState, {}> {
   constructor(props) {
     super(props);
+    this.leaveGroup = this.leaveGroup.bind(this);
     this.state = {
       isLoading: true
     };
@@ -20,8 +22,15 @@ class EventCreationOptionsScreen extends React.Component<EventCreationOptionsScr
     this.setState({isLoading: false});
   }
 
+  async leaveGroup(): void {
+    let userID = await Expo.SecureStore.getItemAsync('localUserID');
+    // removeFromGroup(userID, this.props.navigation.state.params.groupId);
+    removeFromGroup(userID, "123456789");
+    this.props.navigation.navigate('GroupListScreen');
+  }
+
   static navigationOptions = {
-    title: 'Your Groups',
+    title: 'Leave group',
   };
 
   render() {
@@ -32,30 +41,11 @@ class EventCreationOptionsScreen extends React.Component<EventCreationOptionsScr
     let queryInfo = this.props.navigation.state.params;
     return (
       <ButtonScreenTemplate
-        bottomButtonText='Next'
-        bottomButtonFunction={()=> this.props.navigation.navigate('EventCreationDateRangeScreen')}
+        bottomButtonText='Confirm Leave'
+        bottomButtonFunction={this.leaveGroup}
       >
-        {loadingIndicator}
         <Text>
-          {queryInfo.groupId}
-        </Text>
-        <Text>
-          {queryInfo.groupName}
-        </Text>
-        <Text>
-          {queryInfo.timeOfDay}
-        </Text>
-        <Text>
-          {queryInfo.earliestDate}
-        </Text>
-        <Text>
-          {queryInfo.latestDate}
-        </Text>
-        <Text>
-          {queryInfo.hours}
-        </Text>
-        <Text>
-          {queryInfo.minutes}
+          {"Are you sure you want to leave " + queryInfo.groupName}
         </Text>
       </ButtonScreenTemplate>
     );

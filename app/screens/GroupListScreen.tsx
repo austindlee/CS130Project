@@ -70,9 +70,8 @@ class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScr
             data={this.state.groupData}
             keyExtractor={(item) => item.name}
             renderItem={({item}) =>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('GroupScreen', {name: item.name, users: item.users})}>
-                <GroupCard groupName={item.name} groupUserId={item.users}>
-                </GroupCard>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('GroupScreen', {name: item.name, users: item.users, color: item.color})}>
+                <GroupCard groupName={item.name} groupUserId={item.users} groupColor={item.color ? item.color : 0}/>
               </TouchableOpacity>}
           />
       </ButtonScreenTemplate>
