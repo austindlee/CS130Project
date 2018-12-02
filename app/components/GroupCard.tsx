@@ -41,6 +41,7 @@ class NextEventBadge extends React.Component<GroupCardNextEventProps> {
     let hours: number = this.props.nextEventDate.getHours();
     let minutes: number = this.props.nextEventDate.getMinutes();
     let dayOfWeek: number = this.props.nextEventDate.getDay();
+    minutes = minutes < 10 ? "0" + minutes : minutes;
 
     const currentDate = new Date();
     let dateDisplay;
@@ -124,7 +125,8 @@ export default class GroupCard extends React.Component<GroupCardProps> {
 const styles = StyleSheet.create(
   {
     cardContainer: {
-      marginBottom: 10
+      marginBottom: 10,
+      padding: 10,
     },
     badgeContainer: {
       backgroundColor: '#000',

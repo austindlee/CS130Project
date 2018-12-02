@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, ActivityIndicator } from 'react-native';
+import { FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import GroupCard from '../components/GroupCard';
 import { getUsersGroups } from '../utils/firebase/UserUtils';
 import { getGroupInfo } from '../utils/firebase/GroupsUtils';
@@ -69,7 +69,11 @@ class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScr
           <FlatList
             data={this.state.groupData}
             keyExtractor={(item) => item.name}
-            renderItem={({item}) => <GroupCard groupName={item.name} groupUserId={item.users}></GroupCard>}
+            renderItem={({item}) =>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('GroupScreen', {name: item.name, users: item.users})}>
+                <GroupCard groupName={item.name} groupUserId={item.users}>
+                </GroupCard>
+              </TouchableOpacity>}
           />
       </ButtonScreenTemplate>
     );
