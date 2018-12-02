@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   centerText: {
     alignItems: 'center',
-    width: 100
+    width: 120
   },
   pressedOpacity: {
     opacity: 0.35

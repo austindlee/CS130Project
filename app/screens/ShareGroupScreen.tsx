@@ -1,6 +1,6 @@
 import React from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, ActivityIndicator, Share } from 'react-native';
-import BottomButton from '../components/BottomButton';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, ActivityIndicator, Share, Button } from 'react-native';
+import ButtonScreenTemplate from './ButtonScreenTemplate';
 import GlobalStyles from '../globals/GlobalStyles';
 
 class JoinGroupScreen extends React.Component {
@@ -15,20 +15,15 @@ class JoinGroupScreen extends React.Component {
   render(){
     const shareMessage = 'Join my PlanIt Group! The code is: ' + this.props.navigation.getParam('groupCode', 0);
     return(
-      <View style={styles.container}>
+      <ButtonScreenTemplate
+        bottomButtonText='Return home'
+        bottomButtonFunction={() => this.props.navigation.navigate('GroupListScreen', {refreshProps: true})}
+        topButtonText='Share the code'
+        topButtonFunction={() => Share.share({message: shareMessage})}
+      >
         <Text style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}>Your group code is: </Text>
         <Text style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}>{this.props.navigation.getParam('groupCode', 0)}</Text>
-      <BottomButton
-        buttonText='Share the code'
-        buttonAction={() => Share.share({message: shareMessage})}
-        buttonFilled={false}
-      />
-      <BottomButton
-        buttonText='Return home'
-        buttonAction={() => this.props.navigation.navigate('GroupListScreen', {refreshProps: true})}
-        buttonFilled={true}
-      />
-      </View>
+      </ButtonScreenTemplate>
     )
   }
 }

@@ -18,11 +18,13 @@ type GroupCardNextEventProps = {
 
 /**
  * @param groupName - groupName - a string representing the name of the group
+ * @param groupColor - groupColor - the color enum that the correspdoning
  * @param groupUserId - groupUserId - Ids of all users present in the group
  * @param groupNextEvent - see GroupCardNextEventProps - given if the group has an event coming up
  */
 type GroupCardProps = {
   groupName: string,
+  groupColor: number,
   groupUserId: string[],
   groupNextEvent?: GroupCardNextEventProps
 }
@@ -104,7 +106,7 @@ export default class GroupCard extends React.Component<GroupCardProps> {
     return (
       <View style={styles.cardContainer}>
         <LinearGradient
-          colors={GlobalStyles.gradients.yellow}
+          colors={GlobalStyles.gradientsArray[this.props.groupColor]}
           style={styles.gradientContainer}
           start={[0,0]}
           end={[1,1]}>
@@ -125,7 +127,7 @@ export default class GroupCard extends React.Component<GroupCardProps> {
 const styles = StyleSheet.create(
   {
     cardContainer: {
-      marginBottom: 10,
+      marginBottom: -10,
       padding: 10,
     },
     badgeContainer: {
