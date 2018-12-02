@@ -83,7 +83,7 @@ async function getUserInfo(accessToken) {
       idArray.push(element.id);
     });
   });
-  console.log(idArray);
+  console.log("this is a calendar id" + idArray);
   let eventStartTimes = [];
   await fetch('https://www.googleapis.com/calendar/v3/calendars/' + idArray[1] + '/events', {
   method: 'GET',
