@@ -73,14 +73,15 @@ class ButtonScreenTemplate extends React.Component<ButtonScreenTemplateProps> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    paddingTop: 0
   },
   lastButtonMargin: {
     marginTop: 10
   },
   buttonContainer: {
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 10,
   }
 });
 
