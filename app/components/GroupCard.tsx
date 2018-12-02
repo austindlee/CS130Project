@@ -41,6 +41,7 @@ class NextEventBadge extends React.Component<GroupCardNextEventProps> {
     let hours: number = this.props.nextEventDate.getHours();
     let minutes: number = this.props.nextEventDate.getMinutes();
     let dayOfWeek: number = this.props.nextEventDate.getDay();
+    minutes = minutes < 10 ? "0" + minutes : minutes;
 
     const currentDate = new Date();
     let dateDisplay;
