@@ -14,18 +14,36 @@ class FindTimeScreen extends React.Component {
       }
 
     private async suggestTime() {
-      var bodyInfo = {
-        "timeMin": new Date('26 December 2018 12:00').toISOString(),
-        "timeMax": new Date('28 December 2018 12:00').toISOString(),
-        "timeZone": "PST",
-        "items": [
-          {
-            "id": "planit.test.ucla@gmail.com"
-          }
-        ]
+      console.log("entering result get");
+      const result = await Expo.Google.logInAsync({
+        androidClientId: "9082209040-2um3lmf7kfh1enpabk5o6igiump72ppi.apps.googleusercontent.com",
+        iosClientId: "9082209040-hlvr3h8uc9e8buaej5mphgv4lmvihpuf.apps.googleusercontent.com",
+        behavior: "web",
+        scopes: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'],
+      });
+      console.log("result type", result.type);
+  
+      if (result.type === 'success') {
+        console.log(result)
+        console.log("ACCESS TOKEN" + result.accessToken)
+
+        var bodyInfo = {
+          "timeMin": new Date('26 December 2018 12:00').toISOString(),
+          "timeMax": new Date('28 December 2018 12:00').toISOString(),
+          "timeZone": "PST",
+          "items": [
+            {
+              "id": "planit.test.ucla@gmail.com"
+            },
+            {
+              "id": "aperson707@gmail.com"
+            }
+          ]
+        }
+        console.log(bodyInfo.items[0].id);
+  
+        let busyResponse = await findFreeTime(JSON.stringify(bodyInfo), result.accessToken);
       }
-      console.log(bodyInfo.items[0].id);
-      let busyResponse = await findFreeTime(JSON.stringify(bodyInfo));
       // this.props.navigation.navigate('GroupListScreen');
     };
 
@@ -42,31 +60,33 @@ class FindTimeScreen extends React.Component {
 }
 
 //takes in the Timerange prop
-async function findFreeTime(bodyInfo) {
-  const result = await Expo.Google.logInAsync({
-    androidClientId: "9082209040-2um3lmf7kfh1enpabk5o6igiump72ppi.apps.googleusercontent.com",
-    iosClientId: "9082209040-hlvr3h8uc9e8buaej5mphgv4lmvihpuf.apps.googleusercontent.com",
-    behavior: "web",
-    scopes: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'],
-  });
-  if (result.type === 'success') {
+async function findFreeTime(bodyInfo, accessToken) {
+  //TEST if requires google login; does not
     console.log("in findfreetime");
     await fetch('https://www.googleapis.com/calendar/v3/freeBusy', {
       method: 'POST',
       headers: {
-        'Content-type': 'application/json'
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${accessToken}`
       },
       body: bodyInfo
     }).then( response => {
       return response.json();
     }).then( responseJSON => {
       console.log(responseJSON);
+      let calendars = responseJSON.calendars;
+      for(var calendar in responseJSON.calendars) {
+
+        if(responseJSON.calendars.hasOwnProperty(calendar)) {
+          console.log(calendar + "->" + responseJSON.calendars[calendar].busy);
+          for (var event in responseJSON.calendars[calendar].busy) {
+             console.log(responseJSON.calendars[calendar].busy[event].end + "and the start is " + responseJSON.calendars[calendar].busy[event].start);
+          }
+        }
+      }
     })
-  }
-  return result;
-
-
 }
+
 
 
 const styles = StyleSheet.create({
