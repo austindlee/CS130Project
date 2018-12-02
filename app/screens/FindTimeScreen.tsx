@@ -61,30 +61,35 @@ class FindTimeScreen extends React.Component {
 
 //takes in the Timerange prop
 async function findFreeTime(bodyInfo, accessToken) {
-  //TEST if requires google login; does not
-    console.log("in findfreetime");
-    await fetch('https://www.googleapis.com/calendar/v3/freeBusy', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
-      },
-      body: bodyInfo
-    }).then( response => {
-      return response.json();
-    }).then( responseJSON => {
-      console.log(responseJSON);
-      let calendars = responseJSON.calendars;
-      for(var calendar in responseJSON.calendars) {
-
-        if(responseJSON.calendars.hasOwnProperty(calendar)) {
-          console.log(calendar + "->" + responseJSON.calendars[calendar].busy);
-          for (var event in responseJSON.calendars[calendar].busy) {
-             console.log(responseJSON.calendars[calendar].busy[event].end + "and the start is " + responseJSON.calendars[calendar].busy[event].start);
+  try {
+    let queryInfo = this.props.navigation.state.params
+    //TEST if requires google login; does not
+      console.log("in findfreetime");
+      await fetch('https://www.googleapis.com/calendar/v3/freeBusy', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${accessToken}`
+        },
+        body: bodyInfo
+      }).then( response => {
+        return response.json();
+      }).then( responseJSON => {
+        console.log(responseJSON);
+        let calendars = responseJSON.calendars;
+        for(var calendar in responseJSON.calendars) {
+  
+          if(responseJSON.calendars.hasOwnProperty(calendar)) {
+            console.log(calendar + "->" + responseJSON.calendars[calendar].busy);
+            for (var event in responseJSON.calendars[calendar].busy) {
+               console.log(responseJSON.calendars[calendar].busy[event].end + "and the start is " + responseJSON.calendars[calendar].busy[event].start);
+            }
           }
         }
-      }
-    })
+      })
+  } catch(e) {
+    return {error: true};
+  }
 }
 
 
