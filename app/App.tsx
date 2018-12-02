@@ -14,6 +14,7 @@ import JoinGroupScreen from './screens/JoinGroupScreen';
 import NameScreen from './screens/NameScreen';
 import SignInScreen from './screens/SignInScreen';
 import ShareGroupScreen from './screens/ShareGroupScreen';
+import FindTimeScreen from './screens/FindTimeScreen';
 
 // Initialize Firebase
 var config = {
@@ -39,7 +40,8 @@ const RootStack = createStackNavigator(
     JoinGroupScreen: JoinGroupScreen,
     NameScreen: NameScreen,
     SignInScreen: SignInScreen,
-    ShareGroupScreen: ShareGroupScreen
+    ShareGroupScreen: ShareGroupScreen,
+    FindTimeScreen: FindTimeScreen
   },
   {
     initialRouteName: 'Development'
