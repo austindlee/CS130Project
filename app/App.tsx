@@ -14,8 +14,11 @@ import JoinGroupScreen from './screens/JoinGroupScreen';
 import NameScreen from './screens/NameScreen';
 import SignInScreen from './screens/SignInScreen';
 import ShareGroupScreen from './screens/ShareGroupScreen';
+import FindTimeScreen from './screens/FindTimeScreen';
 import GroupScreen from './screens/GroupScreen';
-
+import EventCreationTimeScreen from './screens/EventCreationTimeScreen';
+import EventCreationDateRangeScreen from './screens/EventCreationDateRangeScreen';
+import EventCreationOptionsScreen from './screens/EventCreationOptionsScreen';
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyAi3jiRJKl472HN-w-r4p8adyy1lnhV7Ss",
@@ -41,7 +44,11 @@ const RootStack = createStackNavigator(
     NameScreen: NameScreen,
     SignInScreen: SignInScreen,
     ShareGroupScreen: ShareGroupScreen,
+    FindTimeScreen: FindTimeScreen,
     GroupScreen: GroupScreen,
+    EventCreationTimeScreen: EventCreationTimeScreen,
+    EventCreationDateRangeScreen: EventCreationDateRangeScreen,
+    EventCreationOptionsScreen: EventCreationOptionsScreen,
   },
   {
     initialRouteName: 'Development'

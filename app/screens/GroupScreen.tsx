@@ -1,6 +1,5 @@
 import React from 'react';
 import { FlatList, Text, StyleSheet, View } from 'react-native';
-import GroupCard from '../components/GroupCard';
 import GlobalStyles from '../globals/GlobalStyles';
 import { LinearGradient } from 'expo';
 import { getUsersGroups } from '../utils/firebase/UserUtils';
@@ -9,11 +8,13 @@ import { getGroupInfo } from '../utils/firebase/GroupsUtils';
 import * as Expo from 'expo';
 import ProfilePhoto from '../components/ProfilePhoto';
 import ButtonScreenTemplate from './ButtonScreenTemplate';
+import EventCard from '../components/EventCard';
 
 class GroupScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      eventData: [],
       profilePhotosLoading: true,
       profilePhotoURLs: []
     };
@@ -29,7 +30,10 @@ class GroupScreen extends React.Component {
     const userPics = userArray.map((user) => {
       return (user.photoUrl ? user.photoUrl : '');
     });
+    const currentDate = new Date();
     this.setState({
+      eventData: [{name: "Cool event", date: currentDate.toString()}],
+      // TODO: populate with actual eventData
       profilePhotoURLs: userPics,
       profilePhotosLoading: false
     });
@@ -46,6 +50,7 @@ class GroupScreen extends React.Component {
     return (
       <ButtonScreenTemplate
         bottomButtonText='Plan event'
+        bottomButtonFunction={()=> this.props.navigation.navigate('EventCreationTimeScreen', {groupName: groupName})}
         darkBackground={false}
       >
       <View style={styles.background}>
@@ -66,10 +71,13 @@ class GroupScreen extends React.Component {
           style={styles.separator}
           start={[0,0]}
           end={[1,1]} />
-        <View style={styles.eventContainer} elevation={5}>
-          <Text style={[GlobalStyles.fontSize.medium, GlobalStyles.textColor.black, GlobalStyles.fontFamily.primaryFontBold]}>Cool event name</Text>
-          {dateDisplay}
-        </View>
+        <FlatList
+          data={this.state.eventData}
+          keyExtractor={(item) => item.name}
+          renderItem={({item}) =>
+            <EventCard eventName={item.name} eventDate={item.date}>
+            </EventCard>}
+        />
       </View>
       </ButtonScreenTemplate>
     );
