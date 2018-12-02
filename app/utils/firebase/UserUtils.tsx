@@ -8,9 +8,11 @@ import 'firebase/firestore';
 /**
  * Creates a user document in the Firestore no-sql database
  * @param username - name of the user
+ * @param userInfo - object containing user authentication info.
+ * @param userCalendarId - calendarID of user's primary calendar
  * @return - the unique userID of the newly created user
  */
-export async function createUser(username, userInfo) {
+export async function createUser(username, userInfo, userCalendarId) {
   // initialize Firestore
   const db = firebase.firestore();
   const settings = {
@@ -64,7 +66,8 @@ export async function createUser(username, userInfo) {
     username,
     refreshToken,
     photoUrl,
-    expoPushToken
+    expoPushToken,
+    userCalendarId
   });
 
   return newIDRef.id;
@@ -154,7 +157,7 @@ export async function getNewToken(userID: string) {
         return response.json();
       })
       .then (responseJSON => {
-        console.log("Response...: ", responseJSON);
+        console.log("getNewToken() Response...: ", responseJSON);
         console.log(responseJSON.access_token)
         return responseJSON.access_token;
       });
