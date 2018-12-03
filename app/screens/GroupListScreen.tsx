@@ -31,7 +31,9 @@ class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScr
     let userID = await Expo.SecureStore.getItemAsync('localUserID');
     let groupIDArray = await getUsersGroups(userID);
     let groupArrayPromises = groupIDArray.map(async (groupID) => {
-      return await getGroupInfo(groupID);
+      let groupArrayInfo = await getGroupInfo(groupID);
+      groupArrayInfo["id"] = groupID;
+      return groupArrayInfo;
     })
     const groupArray = await Promise.all(groupArrayPromises);
     this.setState({groupData: groupArray, isLoading: false});
@@ -50,7 +52,9 @@ class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScr
       let groupIDArray = await getUsersGroups(userID);
       //  use  map?
       let groupArrayPromises= groupIDArray.map(async (groupID) => {
-        return await getGroupInfo(groupID);
+        let groupArrayInfo = await getGroupInfo(groupID);
+        groupArrayInfo["id"] = groupID;
+        return groupArrayInfo;
       })
       const groupArray = await Promise.all(groupArrayPromises);
       this.setState({groupData: groupArray, isLoading: false});
@@ -79,7 +83,7 @@ class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScr
             data={this.state.groupData}
             keyExtractor={(item) => item.name}
             renderItem={({item}) =>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('GroupScreen', {name: item.name, users: item.users, color: item.color})}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('GroupScreen', {name: item.name, users: item.users, color: item.color, id: item.id})}>
                 <GroupCard groupName={item.name} groupUserId={item.users} groupColor={item.color ? item.color : 0}/>
               </TouchableOpacity>}
           />
