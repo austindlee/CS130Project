@@ -12,6 +12,9 @@ import BottomButton from '../components/BottomButton';
 import {convertDateToString} from '../utils/local/TimeConversion';
 import {sendPush} from '../utils/local/PushNotifications';
 
+ /* This screen houses the functional part of the app that finds
+  * open timeslots to recommend times for events to take place 
+  */
 class FindTimeScreen extends React.Component {
 
     constructor(props: any) {
@@ -26,6 +29,11 @@ class FindTimeScreen extends React.Component {
         }
       }
 
+    /** suggestTime is the asynchronous entrypoint for findFreeTime. Before
+      * entering findFreeTime, we parse the data available through Expo local
+      * storage and the prop passed from the past screen, parsing it into a format
+      * that we can easily use with the Google Calendar Freebusy API 
+      */
     private async suggestTime() {
       // let groupInfo = await getGroupInfo(groupID);
       // let calendarList = groupInfo.calendarIDs;
@@ -143,7 +151,13 @@ class FindTimeScreen extends React.Component {
 
 
 
-    //takes in the Timerange prop
+/**
+ * findFreeTime performs the Freebusy query, using the bodyInfo we prepared in suggestTime().
+ * We then parse through the response body, checking for any times in each user's calendar that
+ * conflicts with potential time/dates; eventually settling on an open slot or list of open slots.
+ * @param bodyInfo The prepared JSON object from findFreeTime, contains necessary fields like startTime, endTime, and calendars for Google API
+ * @param accessToken Necessary to use any Google API. Passed through from the SignInScreen when user initially authenticates
+ */
 private async findFreeTime(bodyInfo, accessToken) {
   //TODO: need groupID
   // let queryInfo = this.props.navigation.state.params;
@@ -213,6 +227,10 @@ private async findFreeTime(bodyInfo, accessToken) {
     // });
 }
 
+/**
+ * Utility function that is used in prepared bodyInfo. Main usage is parsing date objects into desirable formats.
+ * @param queryInfo contains unparsed information i.e. duration of event, start date(with no time)
+ */
 private async parseInfo(queryInfo) {
   console.log("in parseinfo");
   let interval = queryInfo.hours
