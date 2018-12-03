@@ -13,7 +13,9 @@ type GroupListScreenProps = {
 }
 
 type GroupListScreenState = {
+  /** JSON object representing the groups the user is in */
   groupData: any,
+  /** While async call to get group info has not yet completed */
   isLoading: boolean
 }
 
