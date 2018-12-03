@@ -1,21 +1,46 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import GlobalStyles from '../globals/GlobalStyles';
+import { Permissions, Notifications } from 'expo';
 import firebase, { firestore } from 'firebase';
 import 'firebase/firestore';
 
 /**
  * Creates a user document in the Firestore no-sql database
  * @param username - name of the user
+ * @param userInfo - object containing user authentication info.
+ * @param userCalendarId - calendarID of user's primary calendar
  * @return - the unique userID of the newly created user
  */
-export async function createUser(username, userInfo) {
+export async function createUser(username, userInfo, userCalendarId) {
   // initialize Firestore
   const db = firebase.firestore();
   const settings = {
     timestampsInSnapshots: true
   };
   db.settings(settings);
+
+  const { status: existingStatus } = await Permissions.getAsync(
+    Permissions.NOTIFICATIONS
+  );
+  let finalStatus = existingStatus;
+
+  // only ask if permissions have not already been determined, because
+  // iOS won't necessarily prompt the user a second time.
+  if (existingStatus !== 'granted') {
+    // Android remote notification permissions are granted during the app
+    // install, so this will only ask on iOS
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+  }
+
+  // Stop here if the user did not grant permissions
+  if (finalStatus !== 'granted') {
+    return;
+  }
+
+  // Get the token that uniquely identifies this device
+  let expoPushToken = await Notifications.getExpoPushTokenAsync();
 
   //userInfo object structure example
   /*Object {
@@ -40,7 +65,9 @@ export async function createUser(username, userInfo) {
   let newIDRef = await db.collection('users').add({
     username,
     refreshToken,
-    photoUrl
+    photoUrl,
+    expoPushToken,
+    userCalendarId
   });
 
   return newIDRef.id;
@@ -130,7 +157,7 @@ export async function getNewToken(userID: string) {
         return response.json();
       })
       .then (responseJSON => {
-        console.log("Response...: ", responseJSON);
+        console.log("getNewToken() Response...: ", responseJSON);
         console.log(responseJSON.access_token)
         return responseJSON.access_token;
       });

@@ -18,9 +18,10 @@ function generatePasscode(): string {
  * Function that creates a new group and stores it in firestore
  * @param groupName will be the name of the new group, it is a string
  * @param creator is the userID: string of the person who created the group and will be the first member of the group
+ * @param color the color enum associated with the group
  * @return a nine digit passcode - int that will allow other users to join that group
  */
-export async function createGroup(groupName: string, creator: string) {
+export async function createGroup(groupName: string, creator: string, color: number) {
   const db = firebase.firestore();
   const settings = {
       timestampsInSnapshots: true
@@ -45,7 +46,8 @@ export async function createGroup(groupName: string, creator: string) {
   users.push(creator);
   await db.collection('groups').doc(passcode.toString()).set({
     name: groupName,
-    users: users
+    users: users,
+    color: color
   })
   return passcode;
 }
