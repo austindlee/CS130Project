@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Text, StyleSheet, View } from 'react-native';
+import { Button, FlatList, Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import GlobalStyles from '../globals/GlobalStyles';
 import { LinearGradient } from 'expo';
 import { getUsersGroups } from '../utils/firebase/UserUtils';
@@ -69,6 +69,9 @@ class GroupScreen extends React.Component {
         </LinearGradient>
         <View style={styles.profilePhotoContainer}>
           {this.state.profilePhotosLoading ? profilePhotoPlaceholder : profilePhoto}
+          <TouchableOpacity style={styles.shareButton} onPress={() => this.props.navigation.navigate('ShareGroupScreen', {groupCode: groupId})}>
+          <Text style={styles.shareText}>+</Text>
+          </TouchableOpacity>
         </View>
         <LinearGradient
           colors={GlobalStyles.gradientsArray[groupColor]}
@@ -137,6 +140,20 @@ const styles = StyleSheet.create(
       alignSelf: 'stretch',
       marginTop: 8,
     },
+    shareButton: {
+      height: 36,
+      width: 36,
+      borderRadius: 18,
+      backgroundColor: 'white',
+      borderColor: '#000',
+      borderWidth: 2,
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    shareText: {
+      fontSize: 36,
+      top: -2
+    }
   }
 );
 
