@@ -60,6 +60,7 @@ class TimePicker extends React.Component {
         color1={timeObject.gradient[0]}
         color2={timeObject.gradient[1]}
         onPress={() => this.handlePress(i)}
+        key={i}
         isPressed={i === this.getCurrentlySelected()}
         />
     })
