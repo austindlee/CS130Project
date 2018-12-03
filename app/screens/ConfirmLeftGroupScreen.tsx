@@ -5,14 +5,13 @@ import ButtonScreenTemplate from './ButtonScreenTemplate';
 import GlobalStyles from '../globals/GlobalStyles';
 import { removeFromGroup } from '../utils/firebase/GroupsUtils';
 
-type LeaveGroupScreenState = {
+type ConfirmLeftGroupScreenState = {
   isLoading: boolean
 }
 
-class LeaveGroupScreen extends React.Component<LeaveGroupScreenState, {}> {
+class ConfirmLeftGroupScreen extends React.Component<ConfirmLeftGroupScreenState, {}> {
   constructor(props) {
     super(props);
-    this.leaveGroup = this.leaveGroup.bind(this);
     this.state = {
       isLoading: true
     };
@@ -22,14 +21,8 @@ class LeaveGroupScreen extends React.Component<LeaveGroupScreenState, {}> {
     this.setState({isLoading: false});
   }
 
-  async leaveGroup(): void {
-    let userID = await Expo.SecureStore.getItemAsync('localUserID');
-    removeFromGroup(userID, this.props.navigation.state.params.groupId);
-    this.props.navigation.navigate('ConfirmLeftGroupScreen', {groupName: this.props.navigation.state.params.groupName});
-  }
-
   static navigationOptions = {
-    title: 'Leave group',
+    title: 'Left group',
   };
 
   render() {
@@ -40,12 +33,12 @@ class LeaveGroupScreen extends React.Component<LeaveGroupScreenState, {}> {
     let queryInfo = this.props.navigation.state.params;
     return (
       <ButtonScreenTemplate
-        bottomButtonText='Confirm Leave'
-        bottomButtonFunction={this.leaveGroup}
+        bottomButtonText='Go Back'
+        bottomButtonFunction={()=> this.props.navigation.navigate('GroupListScreen', {refreshProps: true})}
       >
         <View style={styles.background}>
           <Text style={[GlobalStyles.fontSize.large, GlobalStyles.textColor.black, GlobalStyles.fontFamily.primaryFontBold]}>
-            {"Are you sure you want to leave group"}
+            {"You have successfully left"}
           </Text>
           <Text style={[GlobalStyles.fontSize.large, GlobalStyles.textColor.purple, GlobalStyles.fontFamily.primaryFontBold]}>
             {queryInfo.groupName}
@@ -67,4 +60,4 @@ const styles = StyleSheet.create(
   }
 );
 
-export default LeaveGroupScreen
+export default ConfirmLeftGroupScreen

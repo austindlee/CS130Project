@@ -113,14 +113,23 @@ export async function getGroupInfo(groupID: string) {
 
 export async function removeFromGroup(userID: string, groupID: string) {
   const db = firebase.firestore();
-  console.log('in leave group utils func');
-  console.log(userID);
-  console.log(groupID);
   try {
     let doc = await db.collection('users').doc(userID).get();
     if(doc.exists) {
+      let resultingArray = doc.data().groups.filter(group => group != groupID);
       db.collection('users').doc(userID).update({
-        groups: groups.filter(group => group != groupID)
+        groups: resultingArray
+      });
+    }
+  } catch(err) {
+    return null;
+  }
+  try {
+    let doc = await db.collection('groups').doc(groupID).get();
+    if(doc.exists) {
+      let resultingArray = doc.data().users.filter(user => user != userID);
+      db.collection('groups').doc(groupID).update({
+        users: resultingArray
       });
     }
   } catch(err) {
