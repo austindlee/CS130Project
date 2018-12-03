@@ -43,6 +43,11 @@ export const monthNumberMap: any = [
   'December'
 ]
 
+/**
+ * Converts a date object to a friendly user string
+ * @param dateObject Javascript date object
+ * @return date object represented as a string in a user friendly format
+ */
 export function convertDateToString(dateObject: Date): string {
   let month = dateObject.getMonth();
   let day = dateObject.getDate();

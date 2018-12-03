@@ -8,6 +8,9 @@ type ColorPickerProps = {
   onCirclePress: Function
 }
 
+/**
+ * Component used to pick a custom color when creating a group
+ */
 class ColorPicker extends React.Component<ColorPickerProps> {
   constructor(props: ColorPickerProps) {
     super(props);

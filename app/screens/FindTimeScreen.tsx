@@ -284,7 +284,7 @@ private async parseInfo(queryInfo) {
                       {'dateTime': new Date(freeTime.start).toISOString(), 'timeZone': 'America/Los_Angeles'},
                       [
                         {'email': 'mildollarbaby@gmail.com'},
-                        {'email': 'planit.test.ucla@gmail.com'},
+                        {'email': 'bensonjaminhan@gmail.com'},
                         {'email': 'aperson707@gmail.com'}
                       ]);
                       console.log("what is groupid" + this.props.navigation.getParam('id', 'a'));

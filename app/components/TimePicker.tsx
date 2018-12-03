@@ -3,6 +3,9 @@ import { StyleSheet, Image, TouchableOpacity, Text, View } from 'react-native';
 import GlobalStyles from '../globals/GlobalStyles';
 import CircleGradient from './CircleGradient';
 
+/**
+ * Component used to pick event time range
+ */
 class TimePicker extends React.Component {
   constructor(props: any) {
     super(props);
