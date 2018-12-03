@@ -1,5 +1,6 @@
 import firebase, { firestore } from 'firebase';
 import 'firebase/firestore';
+import * as Expo from 'expo';
 
 const db = firebase.firestore();
 const settings = {
