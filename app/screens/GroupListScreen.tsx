@@ -115,13 +115,7 @@ export async function getUsersCalendarID(usersList, groupID) {
       //console.log("Checking doc......")
       if(doc.exists) {
           //console.log(doc.data().userCalendarId)
-          if (doc.data().userCalendarId == null){
-            allCalendarIds.push(null)
-          }
-          else{
-              allCalendarIds.push(doc.data().userCalendarId)
-          }
-
+          allCalendarIds.push(doc.data().userCalendarId)
       }
       else {
         console.log("(2) getUsersCalendarID: Can't find calendarID for user: ", usersLists[i]);
