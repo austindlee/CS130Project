@@ -47,21 +47,28 @@ class FindTimeScreen extends React.Component {
           calendarIDs.splice(index, 1);
         }
       }
-  
+      let tempIDArray = []
+      for(var index in calendarIDs) {
+        let tempIDObject = {};
+        tempIDObject["id"] = calendarIDs[index];
+        tempIDArray.push(tempIDObject);
+      }
+
       console.log("start time is" + parsedInfo.startTime + ", end time is " + parsedInfo.endTime);
       var bodyInfo = {
         "timeMin": parsedInfo.startTime,
         "timeMax": parsedInfo.endTime,
-        "timeZone": "PST",
-        "items": calendarIDs
+        "timeZone": "America/Los Angeles",
+        "items": tempIDArray
       }
 
       if (result.type === 'success') {
         console.log(result)
         console.log("ACCESS TOKEN" + result.accessToken)
 
-        console.log("starttimedate " + bodyInfo.timeMin.getDate());
-        console.log("last date " + queryInfo.latestDate.getDate());
+        console.log("starttimedate " + bodyInfo.timeMin);
+        console.log("last date " + queryInfo.latestDate);
+        console.log(bodyInfo.items)
         // while(bodyInfo.timeMin.getDate() != queryInfo.latestDate.getDate()) {
         // }
 
@@ -70,7 +77,7 @@ class FindTimeScreen extends React.Component {
           let tempTimes = await this.findFreeTime(JSON.stringify(bodyInfo), result.accessToken);
 
         }
-  
+
         let busyResponse = await this.findFreeTime(JSON.stringify(bodyInfo), result.accessToken);
       // this.props.navigation.navigate('GroupListScreen');
     };
@@ -79,14 +86,14 @@ class FindTimeScreen extends React.Component {
 
     //takes in the Timerange prop
 private async findFreeTime(bodyInfo, accessToken) {
-  //TODO: need groupID 
+  //TODO: need groupID
   let queryInfo = this.props.navigation.state.params;
   console.log(queryInfo.timeOfDay.toString());
   let timeOfDay = {
-    "0": "T6:00:00.00Z",
-    "1": "T12:00:00.00Z",
-    "2": "T18:00:00.00Z",
-    "3": "T00:00:00.00Z"
+    "0": "T14:00:00.00Z",
+    "1": "T20:00:00.00Z",
+    "2": "T02:00:00.00Z",
+    "3": "T08:00:00.00Z"
   }
   console.log(timeOfDay[queryInfo.timeOfDay.toString()]);
   let parsedInfo = await this.parseInfo(queryInfo);
@@ -95,6 +102,7 @@ private async findFreeTime(bodyInfo, accessToken) {
     console.log(parsedInfo.startTime);
     console.log(parsedInfo.endTime);
     console.log(queryInfo.groupName);
+    console.log("BODY ITEMS::: ", bodyInfo)
     console.log("in findfreetime");
       await fetch('https://www.googleapis.com/calendar/v3/freeBusy', {
         method: 'POST',
@@ -106,7 +114,7 @@ private async findFreeTime(bodyInfo, accessToken) {
       }).then( response => {
         return response.json();
       }).then( responseJSON => {
-        console.log(responseJSON);
+        console.log("RESPONSE RECEIVED: ", responseJSON);
         let calendars = responseJSON.calendars;
         for(var calendar in responseJSON.calendars) {
           if(responseJSON.calendars.hasOwnProperty(calendar)) {
@@ -126,12 +134,18 @@ private async parseInfo(queryInfo) {
   console.log("in parseinfo");
   let interval = queryInfo.hours
   let timeOfDay = {
-    "0": "T6:00:00.00Z",
-    "1": "T12:00:00.00Z",
-    "2": "T18:00:00.00Z",
-    "3": "T00:00:00.00Z"
+    "0": "T14:00:00.00Z",
+    "1": "T20:00:00.00Z",
+    "2": "T02:00:00.00Z",
+    "3": "T08:00:00.00Z"
   }
+  console.log(queryInfo.earliestDate)
+  console.log(timeOfDay[queryInfo.timeOfDay.toString()])
   let startIntervalDT = (queryInfo.earliestDate + timeOfDay[queryInfo.timeOfDay.toString()]);
+  //console.log("\NEW\nStart Interval: ", startIntervalDT.substring(0, startIntervalDT.length - 4));
+  console.log("Type of Start Interval: ", typeof startIntervalDT);
+  let a = Date.parse(startIntervalDT);
+  console.log("A: ", a);
 
   function addHours(date, hours) {
     return new Date(date.getTime() + hours*3600000);
@@ -144,12 +158,12 @@ private async parseInfo(queryInfo) {
   console.log("this is 'timemin' " + startIntervalDT);
 
   let parsedreturn = {
-    groupName: queryInfo.groupName, 
+    groupName: queryInfo.groupName,
     startTime: startIntervalDT,
     endTime: endIntervalDT,
     earliestDate: queryInfo.earliestDate,
     latestDate: queryInfo.latestDate
-  } 
+  }
   console.log(parsedreturn.latestDate);
   return parsedreturn;
 }
@@ -167,7 +181,7 @@ private async parseInfo(queryInfo) {
           </Text>
           </ButtonScreenTemplate>
         );
-      } 
+      }
 }
 
 
