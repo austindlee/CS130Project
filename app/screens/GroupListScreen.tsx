@@ -127,20 +127,13 @@ export async function getUsersCalendarID(usersList, groupID) {
   console.log(groupID)
   try {
     let ref = await db.collection("groups").doc(groupID);
-    if (ref.exists)
-    {
       ref.update({
       calendarIDs: allCalendarIds
-      })
+    });
         console.log("Document successfully updated! Group ID: ", groupID);
-      }
-    else{
-              console.error("Error updating document: ", error);
-    }
   }
   catch (err) {
       console.log('ERROR (getUsersCalendarID): ', err);
-      
     }
 
 
