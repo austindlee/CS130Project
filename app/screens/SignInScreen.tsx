@@ -152,7 +152,7 @@ function testFirebaseSetup() {
  * @param None
  * @return User Account Info JSON object
  */
-async function signInWithGoogleAsync() {
+export async function signInWithGoogleAsync() {
   try {
     console.log("entering result get");
     const result = await Expo.Google.logInAsync({

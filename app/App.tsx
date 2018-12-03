@@ -69,9 +69,11 @@ export default class App extends React.Component {
       'karla-bold': require('./assets/fonts/Karla-Bold.ttf')
     });
     if (Platform.OS === 'android') {
-      Expo.Notifications.createChannelAndroidAsync('chat-messages', {
-        name: 'Chat messages',
+      Expo.Notifications.createChannelAndroidAsync('PlanIt', {
+        name: 'PlanIt',
         sound: true,
+        priority: 'max',
+        importance: 4
       });
     }
   }
