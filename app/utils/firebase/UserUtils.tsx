@@ -42,6 +42,7 @@ export async function createUser(username, userInfo, userCalendarId) {
   // Get the token that uniquely identifies this device
   let expoPushToken = 1
 
+
   //userInfo object structure example
   /*Object {
      "accessToken": "ya29.GltiBnwIgzEhL9mjQPWfVEAzVeHaPGpxJzuZKn0Fyevl8c7cfTDKINYx8KYBeWinRiHZ2VTg_xj9z-pH7v0_h5OSuCknmqXJWTGIlPqPE2RQu_A-m0kaNCImGWop",

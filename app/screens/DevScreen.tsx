@@ -4,6 +4,8 @@ import BottomButton from '../components/BottomButton';
 import { createStackNavigator } from 'react-navigation';
 import { sendPush } from '../utils/local/PushNotifications';
 import { test, addTestEventToCalendar } from '../utils/local/AddEventToCalendar';
+import { getEventsFromGroup, addEventToGroup} from '../utils/firebase/GroupsUtils';
+
 import * as Expo from 'expo';
 
 class DevScreen extends React.Component {
@@ -12,6 +14,7 @@ class DevScreen extends React.Component {
   };
 
   render() {
+    var event = {description:"here5", timestart:"start", timeend:"end"};
     return (
       <View>
         <Button
@@ -37,6 +40,14 @@ class DevScreen extends React.Component {
         <Button
           title="AddTestEventToCalendar"
           onPress={async() => addTestEventToCalendar()}
+        />
+        <Button
+          title="Get Events from Group"
+          onPress={async() => getEventsFromGroup('120342527')}
+        />
+        <Button
+          title="Add Event to Group"
+          onPress={async() => addEventToGroup('120342527', event)}
         />
       </View>
     );
