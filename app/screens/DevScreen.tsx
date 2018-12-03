@@ -32,7 +32,7 @@ class DevScreen extends React.Component {
         />
         <Button
           title='Send Push'
-          onPress={async () => sendPush('hi', 'test', ['ExponentPushToken[77n75qKhyN5H5HLQ3P7E9x]', 'ExponentPushToken[TCTHGUCgYWJ4frxHJvk4wh]'])}
+          onPress={async () => sendPush('hi', 'test', '196588573')}
         />
         <Button
           title="AddTestEventToCalendar"

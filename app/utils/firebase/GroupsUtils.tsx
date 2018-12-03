@@ -98,6 +98,7 @@ export async function getGroupInfo(groupID: string) {
   const settings = {
     timestampsInSnapshots: true
   }
+  db.settings(settings);
 
   try {
     let doc = await db.collection('groups').doc(groupID).get();
@@ -115,6 +116,10 @@ export async function getGroupInfo(groupID: string) {
 
 export async function removeFromGroup(userID: string, groupID: string) {
   const db = firebase.firestore();
+  const settings = {
+    timestampsInSnapshots: true
+  };
+  db.settings(settings);
   try {
     let doc = await db.collection('users').doc(userID).get();
     if(doc.exists) {
