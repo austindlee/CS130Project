@@ -40,7 +40,8 @@ export async function createUser(username, userInfo, userCalendarId) {
   }
 
   // Get the token that uniquely identifies this device
-  let expoPushToken = await Notifications.getExpoPushTokenAsync();
+  let expoPushToken = 1;
+  //Notifications.getExpoPushTokenAsync();
 
   //userInfo object structure example
   /*Object {
