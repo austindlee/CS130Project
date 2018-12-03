@@ -47,27 +47,33 @@ class FindTimeScreen extends React.Component {
           calendarIDs.splice(index, 1);
         }
       }
+      let tempIDArray = []
+      for(var index in calendarIDs) {
+        let tempIDObject = {};
+        tempIDObject["id"] = calendarIDs[index];
+        tempIDArray.push(tempIDObject);
+        console.log("tempIDArray is " + tempIDArray)
+      }
   
       console.log("start time is" + parsedInfo.startTime + ", end time is " + parsedInfo.endTime.toISOString());
       var bodyInfo = {
         "timeMin": parsedInfo.startTime,
-        "timeMax": parsedInfo.endTime,
-        "timeZone": "PST",
-        "items": calendarIDs
+        "timeMax": parsedInfo.endTime.toISOString(),
+        "timeZone": "America/Los Angeles",
+        "items": tempIDArray
       }
 
       if (result.type === 'success') {
         console.log(result)
         console.log("ACCESS TOKEN" + result.accessToken)
 
-        console.log("starttimedate " + bodyInfo.timeMin.getDate());
-        console.log("last date " + queryInfo.latestDate.getDate());
         // while(bodyInfo.timeMin.getDate() != queryInfo.latestDate.getDate()) {
         // }
 
 
 
-          let tempTimes = await this.findFreeTime(JSON.stringify(bodyInfo), result.accessToken);
+          let tempTimes = await this.findFreeTime(bodyInfo, result.accessToken);
+          console.log("tempTimes: ", tempTimes);
 
         }
   
@@ -80,33 +86,38 @@ class FindTimeScreen extends React.Component {
     //takes in the Timerange prop
 private async findFreeTime(bodyInfo, accessToken) {
   //TODO: need groupID 
+  console.log("this is bodyinfo" + bodyInfo);
+  console.log( "this is bodyinfo items " + bodyInfo.items)
   let queryInfo = this.props.navigation.state.params;
   console.log(queryInfo.timeOfDay.toString());
   let timeOfDay = {
-    "0": "T6:00:00.00Z",
-    "1": "T12:00:00.00Z",
-    "2": "T18:00:00.00Z",
-    "3": "T00:00:00.00Z"
+    "0": "T14:00:00.000Z",
+    "1": "T20:00:00.000Z",
+    "2": "T02:00:00.000Z",
+    "3": "T08:00:00.000Z"
   }
   console.log(timeOfDay[queryInfo.timeOfDay.toString()]);
   let parsedInfo = await this.parseInfo(queryInfo);
 
+  console.log("this is still bodyinfo" + bodyInfo.items)
   try {
     console.log(parsedInfo.startTime);
     console.log(parsedInfo.endTime);
     console.log(queryInfo.groupName);
     console.log("in findfreetime");
+    console.log("calendars we're looking at " + bodyInfo.items);
       await fetch('https://www.googleapis.com/calendar/v3/freeBusy', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
           Authorization: `Bearer ${accessToken}`
         },
-        body: bodyInfo
+        body: JSON.stringify(bodyInfo)
       }).then( response => {
         return response.json();
       }).then( responseJSON => {
-        console.log(responseJSON);
+        console.log("responseJSON is " + JSON.stringify(responseJSON, null, 4));
+        console.log("calendars found are " + responseJSON.calendars);
         let calendars = responseJSON.calendars;
         for(var calendar in responseJSON.calendars) {
           if(responseJSON.calendars.hasOwnProperty(calendar)) {
@@ -116,8 +127,10 @@ private async findFreeTime(bodyInfo, accessToken) {
             }
           }
         }
+        return responseJSON;
       })
   } catch(e) {
+    console.log(e);
     return {error: true};
   }
 }
@@ -126,10 +139,10 @@ private async parseInfo(queryInfo) {
   console.log("in parseinfo");
   let interval = queryInfo.hours
   let timeOfDay = {
-    "0": "T06:00:00.00Z",
-    "1": "T12:00:00.00Z",
-    "2": "T18:00:00.00Z",
-    "3": "T00:00:00.00Z"
+    "0": "T14:00:00.000Z",
+    "1": "T20:00:00.000Z",
+    "2": "T02:00:00.000Z",
+    "3": "T08:00:00.000Z"
   }
   let startIntervalDT = (queryInfo.earliestDate + timeOfDay[queryInfo.timeOfDay.toString()]);
 

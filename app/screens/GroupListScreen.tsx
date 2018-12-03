@@ -126,18 +126,25 @@ export async function getUsersCalendarID(usersList, groupID) {
   console.log(allCalendarIds);
 
   //update Group in Firebase with this new list of calendarIDs
-  var ref = db.collection("groups").doc(groupID);
-  return ref.update({
-    calendarIDs: allCalendarIds
-  })
-  .then(function() {
-      console.log("Document successfully updated! Group ID: ", groupID);
-  })
-  .catch(function(error) {
-      // The document probably doesn't exist.
-      console.error("Error updating document: ", error);
-  });
-
+  console.log(allCalendarIds);
+  console.log(groupID)
+  try {
+    let ref = await db.collection("groups").doc(groupID);
+    if (ref.exists)
+    {
+      ref.update({
+      calendarIDs: allCalendarIds
+      })
+        console.log("Document successfully updated! Group ID: ", groupID);
+      }
+    else{
+              console.error("Error updating document: ", error);
+    }
+  }
+  catch (err) {
+      console.log('ERROR (getUsersCalendarID): ', err);
+      
+  }
   return allCalendarIds;
 }
 
