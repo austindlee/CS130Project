@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, ActivityIndicator, Text, Picker, StyleSheet, View, Dimensions } from 'react-native';
+import { FlatList, ActivityIndicator, Text, Picker, StyleSheet, View, Dimensions, TextInput } from 'react-native';
 import * as Expo from 'expo';
 import ButtonScreenTemplate from './ButtonScreenTemplate';
 import DatePicker from 'react-native-datepicker';
@@ -20,6 +20,7 @@ class EventCreationDateRangeScreen extends React.Component<EventCreationDateRang
       currentDate: dateString,
       earliestDate: dateString,
       latestDate: dateString,
+      description: "",
       selectedHours: 0,
       selectedMinutes: 0,
       isLoading: false
@@ -55,11 +56,24 @@ class EventCreationDateRangeScreen extends React.Component<EventCreationDateRang
             latestDate: this.state.latestDate,
             hours: this.state.selectedHours,
             minutes: this.state.selectedMinutes,
+            description: this.state.description,
           }
         )}
       >
         <View style={styles.background}>
           {loadingIndicator}
+          <View styles={styles.section}>
+            <Text style={[GlobalStyles.fontSize.medium, GlobalStyles.textColor.purple, GlobalStyles.fontFamily.primaryFontBold, styles.header]}>
+              Event Description
+            </Text>
+            <TextInput
+              placeholder='Enter description'
+              maxLength={30}
+              onChangeText={(text)=> this.setState({description: text})}
+              returnKeyType='done'
+              style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.medium, GlobalStyles.textColor.black]}
+            />
+          </View>
           <View styles={styles.section}>
             <Text style={[GlobalStyles.fontSize.medium, GlobalStyles.textColor.purple, GlobalStyles.fontFamily.primaryFontBold, styles.header]}>
               Earliest Date

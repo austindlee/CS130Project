@@ -114,6 +114,13 @@ export async function getGroupInfo(groupID: string) {
   }
 }
 
+/**
+ * Function that removes a user from a group
+ * @param groupID will be the name of the group to remove user from
+ * @param user is the userID: string of the person who wants to be removed from group
+ * @return boolean stating if it is successful, updates the both group and user collections
+ *        so that they no longer hold each other (i.e. user's groups array has removed the group from itself)
+ */
 export async function removeFromGroup(userID: string, groupID: string) {
   const db = firebase.firestore();
   const settings = {
@@ -129,7 +136,7 @@ export async function removeFromGroup(userID: string, groupID: string) {
       });
     }
   } catch(err) {
-    return null;
+    return false;
   }
   try {
     let doc = await db.collection('groups').doc(groupID).get();
@@ -138,50 +145,68 @@ export async function removeFromGroup(userID: string, groupID: string) {
       db.collection('groups').doc(groupID).update({
         users: resultingArray
       });
+      return true;
     }
   } catch(err) {
-    return null;
+    return false;
   }
-  // delete from user's groups
-  // try {
-  //   let doc = await db.collection('groups').doc(groupID).get();
-  //   if(doc.exists) {
-  //     // This call can be blocking - no ned for async/await
-  //     db.collection('groups').doc(groupID).update({
-  //       users: firebase.firestore.FieldValue.arrayUnion(userID)
-  //     });
-  //
-  //     // This call can be blocking - no need for async/await
-  //     db.collection('users').doc(userID).update({
-  //       groups: firebase.firestore.FieldValue.arrayUnion(groupID)
-  //     });
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // } catch (err) {
-  //   console.log('Could not grab group based on groupID');
-  //   return false;
-  // }
-  // try {
-  //   let doc = await db.collection('users').doc(userID).get();
-  //   if(doc.exists) {
-  //     db.collection('users').doc(userID).update({
-  //
-  //     });
-  //     return doc.data();
-  //   } else {
-  //     return null;
-  //   }
-  // } catch (err){
-  //   console.log('Error removing user frmo group');
-  //   return null;
-  // }
-  // // delete group group's users
-  // try {
-  //
-  // } catch (err) {
-  //   console.log('Could not leave group');
-  //   return null;
-  // }
+}
+
+/**
+ * Adds an event to a group
+ * @param groupId will be the name of the group to add the event to
+ * @param event is an object that represents info about the event being added
+ * @return boolean stating if it is successful, adds an event to the group
+ */
+export async function addEventToGroup(groupID: string, event: any) {
+  const db = firebase.firestore();
+  const settings = {
+      timestampsInSnapshots: true
+  };
+  db.settings(settings);
+  let users = [];
+
+  try {
+    let doc = await db.collection('groups').doc(groupID).get();
+    if(doc.exists) {
+      // This call can be blocking - no ned for async/await
+      db.collection('groups').doc(groupID).update({
+        events: firebase.firestore.FieldValue.arrayUnion(event)
+      });
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.log('Could not grab group based on groupID');
+    return false;
+  }
+}
+
+/**
+ * Helper function that grabs the list of events associated with the group
+ * @param groupId will be the name of the group to query events from
+ * @return an array of objects that represent events the group has created
+ */
+export async function getEventsFromGroup(groupID: string) {
+  const db = firebase.firestore();
+  const settings = {
+      timestampsInSnapshots: true
+  };
+  db.settings(settings);
+  let users = [];
+
+  try {
+    let doc = await db.collection('groups').doc(groupID).get();
+    if(doc.exists) {
+      // This call can be blocking - no ned for async/await
+      // console.log(doc.data().events);
+      return doc.data().events;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.log('Could not grab group based on groupID');
+    return false;
+  }
 }
