@@ -36,7 +36,7 @@ class FindTimeScreen extends React.Component {
       console.log("result type", result.type);
 
       //NEED TO GET THIS FROM GROUPLIST onclick props
-      let groupData = await getGroupInfo("115368707");
+      let groupData = await getGroupInfo("124440921");
       console.log("this is the group doc.data()" + groupData);
       let calendarIDs = groupData.calendarIDs;
       console.log(calendarIDs);
@@ -61,91 +61,148 @@ class FindTimeScreen extends React.Component {
         "timeZone": "America/Los Angeles",
         "items": tempIDArray
       }
+      let validTimes = [];
 
       if (result.type === 'success') {
         console.log(result)
         console.log("ACCESS TOKEN" + result.accessToken)
+
         console.log("starttimedate " + bodyInfo.timeMin);
         console.log("last date " + queryInfo.latestDate);
         console.log(bodyInfo.items)
-        // while(bodyInfo.timeMin.getDate() != queryInfo.latestDate.getDate()) {
-        // }
 
-
-
-          let tempTimes = await this.findFreeTime(bodyInfo, result.accessToken);
-          console.log("tempTimes: ", tempTimes);
-
+        function addHours(date, hours) {
+          return new Date(date.getTime() + hours*3600000);
+        }
+        function subHours(date, hours) {
+          return new Date(date.getTime() - hours*3600000);
         }
 
-        let busyResponse = await this.findFreeTime(JSON.stringify(bodyInfo), result.accessToken);
-      // this.props.navigation.navigate('GroupListScreen');
-    };
+        //start time is2018-12-02T20:00:00.00Z, end time is Sun Dec 02 2018 18:00:00 GMT-0800 (PST)
+        var i = 0;
+        var max_time = parsedInfo.endTime
+        var end_time = subHours(parsedInfo.endTime, 5);
+        console.log("entering loop")
+        while (i < 6) {
+          //6am - 12pm
+          //startTime = 6am
+          //endTime = 7am
+          console.log("iter ", i)
+          bodyInfo.timeMin = parsedInfo.startTime;
+          bodyInfo.timeMax = end_time;
+
+          console.log("MIN: ", bodyInfo.timeMin)
+          console.log("MAX: ", bodyInfo.timeMax)
+
+          // this.findFreeTime(JSON.stringify(bodyInfo), result.accessToken).then(response => {
+          //   console.log("THIS IS THE RESPONSE: " + response);
+          //   if(response) {
+          //     console.log("PUSHING A VALID TIME");
+          //     validTimes.push({"start": bodyInfo.timeMin.toString(), "end": bodyInfo.timeMax.toString()});
+          //   }
+          // });
+          let awaitedPromise = await this.findFreeTime(JSON.stringify(bodyInfo), result.accessToken);
+          console.log("this is the parsed function" + JSON.stringify(awaitedPromise));
+          if(awaitedPromise) {
+            console.log("THE REPSONSE IS TRUE");
+            validTimes.push({"start": bodyInfo.timeMin.toString(), "end": bodyInfo.timeMax.toString()});
+          }
+          parsedInfo.startTime = addHours(new Date(parsedInfo.startTime), 1);
+          end_time = addHours(end_time, 1);
+
+          i++;
+        }
+        for(var validtime in validTimes) {
+          console.log((JSON.stringify(validTimes[validtime], null, 4)));
+        }
+        console.log("this is valid times " + validTimes + "type is " + typeof validTimes);
+        return validTimes;
+        } else {
+
+          return null;
+        }
+        };
 
 
 
     //takes in the Timerange prop
 private async findFreeTime(bodyInfo, accessToken) {
-  //TODO: need groupID 
-  console.log("this is bodyinfo" + bodyInfo);
-  console.log( "this is bodyinfo items " + bodyInfo.items)
-  let queryInfo = this.props.navigation.state.params;
-  console.log(queryInfo.timeOfDay.toString());
+  //TODO: need groupID
+  // let queryInfo = this.props.navigation.state.params;
+  // console.log(queryInfo.timeOfDay.toString());
   let timeOfDay = {
-    "0": "T14:00:00.000Z",
-    "1": "T20:00:00.000Z",
-    "2": "T02:00:00.000Z",
-    "3": "T08:00:00.000Z"
+    "0": "T14:00:00.00Z",
+    "1": "T20:00:00.00Z",
+    "2": "T02:00:00.00Z",
+    "3": "T08:00:00.00Z"
   }
-  console.log(timeOfDay[queryInfo.timeOfDay.toString()]);
-  let parsedInfo = await this.parseInfo(queryInfo);
+  // console.log(timeOfDay[queryInfo.timeOfDay.toString()]);
+  // let parsedInfo = await this.parseInfo(queryInfo);
 
-  console.log("this is still bodyinfo" + bodyInfo.items)
-  try {
-    console.log(parsedInfo.startTime);
-    console.log(parsedInfo.endTime);
-    console.log(queryInfo.groupName);
-    console.log("BODY ITEMS::: ", bodyInfo)
-    console.log("in findfreetime");
-    console.log("calendars we're looking at " + bodyInfo.items);
-      await fetch('https://www.googleapis.com/calendar/v3/freeBusy', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-          Authorization: `Bearer ${accessToken}`
-        },
-        body: JSON.stringify(bodyInfo)
-      }).then( response => {
-        return response.json();
-      }).then( responseJSON => {
-        console.log("responseJSON is " + JSON.stringify(responseJSON, null, 4));
-        console.log("calendars found are " + responseJSON.calendars);
+  let fetchResponse = await fetch('https://www.googleapis.com/calendar/v3/freeBusy', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${accessToken}`
+    },
+    body: bodyInfo
+  });
 
-        let calendars = responseJSON.calendars;
-        for(var calendar in responseJSON.calendars) {
-          if(responseJSON.calendars.hasOwnProperty(calendar)) {
-            console.log(calendar + "->" + responseJSON.calendars[calendar].busy);
-            for (var event in responseJSON.calendars[calendar].busy) {
-               console.log(responseJSON.calendars[calendar].busy[event].end + "and the start is " + responseJSON.calendars[calendar].busy[event].start);
-            }
-          }
-        }
-        return responseJSON;
-      })
-  } catch(e) {
-    console.log(e);
-    return {error: true};
+  let fetchResponseJSON = await fetchResponse.json();
+  for(var calendar in fetchResponseJSON.calendars) {
+    if(fetchResponseJSON.calendars.hasOwnProperty(calendar)) {
+      console.log(calendar + "->" + fetchResponseJSON.calendars[calendar].busy);
+      console.log("this is calendar bool" + (fetchResponseJSON.calendars[calendar].busy.length > 0))
+      if(fetchResponseJSON.calendars[calendar].busy.length > 0) {
+        console.log("THIS IS RETURNING FLASE");
+        return false;
+      }
+    }
   }
+  return true;
+    // console.log(parsedInfo.startTime);
+    // console.log(parsedInfo.endTime);
+    // console.log(queryInfo.groupName);
+    // console.log("BODY ITEMS::: ", bodyInfo)
+
+
+
+
+    // console.log("in findfreetime");
+    //   fetch('https://www.googleapis.com/calendar/v3/freeBusy', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-type': 'application/json',
+    //       Authorization: `Bearer ${accessToken}`
+    //     },
+    //     body: bodyInfo
+    //   }).then(response => response.json()
+    //   ).then(responseJSON => {
+    //     console.log("RESPONSE RECEIVED: ", responseJSON);
+    //     // let calendars = responseJSON.calendars;
+    //     for(var calendar in responseJSON.calendars) {
+    //       if(responseJSON.calendars.hasOwnProperty(calendar)) {
+    //         console.log(calendar + "->" + responseJSON.calendars[calendar].busy);
+    //         console.log("this is calendar bool" + (responseJSON.calendars[calendar].busy.length > 0))
+    //         if(responseJSON.calendars[calendar].busy.length > 0) {
+    //           console.log("THIS IS RETURNING FLASE");
+    //           return false;
+    //         }
+    //     }
+    //   }
+    //   console.log("THIS IS RETURNING TRUE");
+    //   return true;
+    // });
 }
 
 private async parseInfo(queryInfo) {
   console.log("in parseinfo");
   let interval = queryInfo.hours
   let timeOfDay = {
-    "0": "T14:00:00.000Z",
-    "1": "T20:00:00.000Z",
-    "2": "T02:00:00.000Z",
-    "3": "T08:00:00.000Z"
+    "0": "T14:00:00.00Z",
+    "1": "T20:00:00.00Z",
+    "2": "T02:00:00.00Z",
+    "3": "T08:00:00.00Z"
   }
   console.log(queryInfo.earliestDate)
   console.log(timeOfDay[queryInfo.timeOfDay.toString()])
