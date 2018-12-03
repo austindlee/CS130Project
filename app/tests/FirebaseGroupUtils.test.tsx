@@ -1,9 +1,8 @@
-const diff = require('../utils/GroupsUtils');
+import {joinGroup } from '../utils/firebase/GroupsUtils';
 test('Accessing group id of user', () => {
-  expect(joinGroup("invalidUserID", "invalidGroupID").toBe(false);
-  expect(joinGroup("gEg9kFYpqUnjOmoPCA37", "0ufEvVnrMMOBD2gEq3RV").toBe(true));
-  expect(userInGroup("gEg9kFYpqUnjOmoPCA37", "0ufEvVnrMMOBD2gEq3RV").toBe(true)); // To be implemented
-  expect(groupInUser("0ufEvVnrMMOBD2gEq3RV", "gEg9kFYpqUnjOmoPCA37").toBe(true)); // To be implemented
+  expect.assertions(2);
+  return expect(joinGroup("invalidUserID", "invalidGroupID")).resolves.toBe(false);
+  return expect(joinGroup("gEg9kFYpqUnjOmoPCA37", "0ufEvVnrMMOBD2gEq3RV")).resolves.toBe(true);
 });
 
 // This test is written to check if invalid user ids and invalid group ids return false
