@@ -124,9 +124,6 @@ export async function getUsersCalendarID(usersList, groupID) {
 
   }
   console.log(allCalendarIds);
-
-  //update Group in Firebase with this new list of calendarIDs
-  console.log(allCalendarIds);
   console.log(groupID)
   try {
     let ref = await db.collection("groups").doc(groupID);
@@ -144,7 +141,9 @@ export async function getUsersCalendarID(usersList, groupID) {
   catch (err) {
       console.log('ERROR (getUsersCalendarID): ', err);
       
-  }
+    }
+
+
   return allCalendarIds;
 }
 
