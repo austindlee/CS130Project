@@ -3,10 +3,13 @@ import 'firebase/firestore';
 import * as Expo from 'expo';
 
 /**
- * Sends push notifications to a list of Expo IDs via HTTP
- * @param title Title of the push notification
- * @param body Body of the push notification
- * @param expoTokens Array containing a list of expo push notification tokens
+ * Adds an event to a Google Calendar
+ * @param calendarID Key for Google Calendar
+ * @param accessToken Authentification token for Google account
+ * @param summary Title of the event
+ * @param end End time of the event
+ * @param start Start time of the event
+ * @param attendees List of the people in the group for the event
  */
 export async function createEvent(calendarID, accessToken, summary, end, start, attendees) {
     let requestBody = {
