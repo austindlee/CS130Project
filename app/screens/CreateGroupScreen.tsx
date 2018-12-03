@@ -4,6 +4,7 @@ import ButtonScreenTemplate from './ButtonScreenTemplate'
 import GlobalStyles from '../globals/GlobalStyles';
 import * as Expo from 'expo';
 import { createGroup } from '../utils/firebase/GroupsUtils';
+import ColorPicker from '../components/ColorPicker';
 
 class CreateGroupScreen extends React.Component {
   static navigationOptions = {
@@ -18,10 +19,16 @@ class CreateGroupScreen extends React.Component {
     super(props);
 
     this.submitGroupName = this.submitGroupName.bind(this);
+    this.handleColorPress = this.handleColorPress.bind(this);
     this.state = {
       text: '',
-      isLoading: false
+      isLoading: false,
+      selectedColor: 0
     }
+  }
+
+  private handleColorPress(colorNumber: number) {
+    this.setState({selectedColor: colorNumber})
   }
 
   async submitGroupName() {
@@ -29,7 +36,7 @@ class CreateGroupScreen extends React.Component {
 
     this.setState({isLoading: true});
     let currentUser = await Expo.SecureStore.getItemAsync('localUserID');
-    let groupID = await createGroup(this.state.text, currentUser);
+    let groupID = await createGroup(this.state.text, currentUser, this.state.selectedColor);
     // TODO: Replace this with submitting group name
     // state while its loading with an indicator
 
@@ -56,6 +63,8 @@ class CreateGroupScreen extends React.Component {
       >
         <Text style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}>What do you want to name the group?</Text>
         {textInputOrLoading}
+        <Text style={[GlobalStyles.fontFamily.primaryFontBold, GlobalStyles.fontSize.large, GlobalStyles.textColor.purple]}>Pick a group color</Text>
+        <ColorPicker onCirclePress={this.handleColorPress} />
       </ButtonScreenTemplate>
     )
   }

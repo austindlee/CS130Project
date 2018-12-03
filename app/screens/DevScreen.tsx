@@ -2,6 +2,7 @@ import React from 'react';
 import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 import BottomButton from '../components/BottomButton';
 import { createStackNavigator } from 'react-navigation';
+import * as Expo from 'expo';
 
 class DevScreen extends React.Component {
   static navigationOptions = {
@@ -26,6 +27,10 @@ class DevScreen extends React.Component {
         <Button
           title='Event Creation'
           onPress={() => this.props.navigation.navigate('EventCreationScreen')}
+        />
+        <Button
+          title="AddTestEventToGoogleCalendarOnMay28,2015"
+          onPress={() => this.props.navigation.navigate('AddEventToCalendarScreen')}
         />
       </View>
     );
