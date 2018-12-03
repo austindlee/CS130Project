@@ -69,6 +69,7 @@ export async function addTestEventToCalendar() {
     });
 
     if (result.type == 'success') {
+        console.log(result.accessToken);
         createEvent("bensonjaminhan@gmail.com", result.accessToken, event['summary'], event['end'], event['start'], event['attendees']);
     }
 };

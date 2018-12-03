@@ -144,30 +144,29 @@ export async function getNewToken(userID: string) {
     timestampsInSnapshots: true
   };
   db.settings(settings);
-  await db.collection('users').doc(userID).get().then((doc) => {
+  let doc =  await db.collection('users').doc(userID).get();
     if(doc.exists) {
       let refreshToken = doc.data().refreshToken;
-      fetch('https://www.googleapis.com/oauth2/v4/token', {
+
+      console.log("THIS IS DOC DATA YEAH" +doc.data());
+
+      let fetchResponse = await fetch('https://www.googleapis.com/oauth2/v4/token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         },
-      body:"client_id=9082209040-hlvr3h8uc9e8buaej5mphgv4lmvihpuf.apps.googleusercontent.com&client_secret=&refresh_token=" + refreshToken + "&grant_type=refresh_token"
-      })
-      .then(response => {
-        return response.json();
-      })
-      .then (responseJSON => {
+      body:"client_id=9082209040-2um3lmf7kfh1enpabk5o6igiump72ppi.apps.googleusercontent.com&client_secret=&refresh_token=" + refreshToken + "&grant_type=refresh_token"
+      });
+      
+      let responseJSON = await fetchResponse.json();
         console.log("getNewToken() Response...: ", responseJSON);
         console.log(responseJSON.access_token)
         return responseJSON.access_token;
-      });
     }
     else {
       console.log("Can't find user to get refreshToken");
       return null;
     }
-  });
 }
 
 // export default function deleteUser(userID: number) {

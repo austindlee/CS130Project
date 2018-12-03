@@ -5,6 +5,7 @@ import { createUser, getNewToken } from '../utils/firebase/UserUtils';
 import ButtonScreenTemplate from './ButtonScreenTemplate';
 import firebase, { firestore } from 'firebase';
 import 'firebase/firestore';
+import { userInfo } from 'os';
 
 class SignInScreen extends React.Component {
   static navigationOptions = {
@@ -25,6 +26,7 @@ class SignInScreen extends React.Component {
     let userInfoObject = await signInWithGoogleAsync();
 
     //console.log("Info object: ", userInfoObject)
+
     let userCalendarId = await getUserCalendarInfo(userInfoObject.accessToken);
     //console.log("User calendar id: ", userCalendarId)
     let userId = await createUser(name, userInfoObject, userCalendarId[0]);
@@ -32,6 +34,7 @@ class SignInScreen extends React.Component {
     let token = await getNewToken(userId);
 
     await Expo.SecureStore.setItemAsync('localUserID', userId.toString());
+    await Expo.SecureStore.setItemAsync('localUserAccessToken', userInfoObject.accessToken.toString());
     console.log("New user id in firebase: ", userId.toString())
     this.props.navigation.navigate('GroupListScreen');
   };

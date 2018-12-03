@@ -40,7 +40,8 @@ class EventCreationOptionsScreen extends React.Component<EventCreationOptionsScr
             latestDate: queryInfo.latestDate,
             hours: queryInfo.hours,
             minutes: queryInfo.minutes,
-            id: queryInfo.groupId
+            id: queryInfo.groupId,
+            description: queryInfo.description,
           }
           )}
       >

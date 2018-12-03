@@ -27,3 +27,37 @@ export const dayNumberMap: any = {
   6: 'Saturday',
   7: 'Sunday'
 }
+
+export const monthNumberMap: any = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
+
+export function convertDateToString(dateObject: Date): string {
+  let month = dateObject.getMonth();
+  let day = dateObject.getDate();
+  let hour = dateObject.getHours();
+  let minutes = dateObject.getMinutes();
+  let minutesString = minutes.toString();
+  if(minutes < 10)
+    minutesString = '0' + minutesString;
+  let ampm = 'AM'
+  if (hour >= 12) {
+    ampm = 'PM'
+  }
+  if(hour >= 13) {
+    hour -= 12;
+  }
+
+  return (monthNumberMap[month] + ' ' + day + ' at ' + hour + ':' + minutesString + ampm);
+}
