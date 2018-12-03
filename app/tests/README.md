@@ -29,19 +29,19 @@ Our tests for functions in PlanIt
 &nbsp;&nbsp;&nbsp;&nbsp;**Input**: userID: string, groupID: string  
 &nbsp;&nbsp;&nbsp;&nbsp;**Output**: boolean: T or F indicating if the user is added into the group  
 &nbsp;&nbsp;&nbsp;&nbsp;**Outcome Test Success**: The group associated with that groupID adds that user as a member  
-&nbsp;&nbsp;&nbsp;&nbsp;**Failure Indicators**: user is not added into the group and False is returned
-<br>
-**UserRefreshToken.test.tsx**: Tests to see if a User has a refreshToken in Firebase (refreshToken is required)
-&nbsp;&nbsp;&nbsp;&nbsp;**Input**: userID: string
-&nbsp;&nbsp;&nbsp;&nbsp;**Output**: boolean: T or null/undefined indicating if a User has a refreshToken in Firebase
-&nbsp;&nbsp;&nbsp;&nbsp;**Outcome Test Success**: Return value is true
-&nbsp;&nbsp;&nbsp;&nbsp;**Failure Indicators**: Return value is null or undefined
-<br>
-**UserCalendarID.test.tsx**: Tests to see if a User has a userCalendarId in Firebase (userCalendarId is required)
-&nbsp;&nbsp;&nbsp;&nbsp;**Input**: userID: string
-&nbsp;&nbsp;&nbsp;&nbsp;**Output**: boolean: T or null/undefined indicating if a User has a userCalendarId in Firebase
-&nbsp;&nbsp;&nbsp;&nbsp;**Outcome Test Success**: Return value is true
-&nbsp;&nbsp;&nbsp;&nbsp;**Failure Indicators**: Return value is null or undefined
+&nbsp;&nbsp;&nbsp;&nbsp;**Failure Indicators**: user is not added into the group and False is returned<br />
+<br />
+**UserRefreshToken.test.tsx**: Tests to see if a User has a refreshToken in Firebase (refreshToken is required)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;**Input**: userID: string<br />
+&nbsp;&nbsp;&nbsp;&nbsp;**Output**: boolean: T or null/undefined indicating if a User has a refreshToken in Firebase<br />
+&nbsp;&nbsp;&nbsp;&nbsp;**Outcome Test Success**: Return value is true<br />
+&nbsp;&nbsp;&nbsp;&nbsp;**Failure Indicators**: Return value is null or undefined<br />
+<br />
+**UserCalendarID.test.tsx**: Tests to see if a User has a userCalendarId in Firebase (userCalendarId is required)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;**Input**: userID: string<br />
+&nbsp;&nbsp;&nbsp;&nbsp;**Output**: boolean: T or null/undefined indicating if a User has a userCalendarId in Firebase<br />
+&nbsp;&nbsp;&nbsp;&nbsp;**Outcome Test Success**: Return value is true<br />
+&nbsp;&nbsp;&nbsp;&nbsp;**Failure Indicators**: Return value is null or undefined<br />
 <br />
 **AddEventToCalendar.test.tsx**: Tests to see if an event is added to a user's calendar<br />
 &nbsp;&nbsp;&nbsp;&nbsp;**Input**: calendarID: string<br />
