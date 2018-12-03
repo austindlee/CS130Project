@@ -114,10 +114,10 @@ export default class GroupCard extends React.Component<GroupCardProps> {
         <View style={styles.profilePhotoContainer}>
           {this.state.profilePhotosLoading ? profilePhotoPlaceholder : profilePhoto}
         </View>
-        <NextEventBadge
+        {/* <NextEventBadge
           nextEventName='Test Event'
           nextEventDate={testDate}
-        />
+        /> */}
         </LinearGradient>
       </View>
     );

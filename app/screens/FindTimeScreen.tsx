@@ -10,6 +10,7 @@ import { createEvent } from '../utils/local/AddEventToCalendar';
 import { getNewToken } from '../utils/firebase/UserUtils';
 import BottomButton from '../components/BottomButton';
 import {convertDateToString} from '../utils/local/TimeConversion';
+import {sendPush} from '../utils/local/PushNotifications';
 
 class FindTimeScreen extends React.Component {
 
@@ -268,6 +269,7 @@ private async parseInfo(queryInfo) {
                         {'email': 'planit.test.ucla@gmail.com'},
                         {'email': 'aperson707@gmail.com'}
                       ]);
+                      sendPush('PlanIt notification', 'body', queryInfo.groupID)
                   }}
                   buttonFilled={false}
                   buttonText={newString} />

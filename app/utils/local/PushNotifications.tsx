@@ -31,8 +31,8 @@ export async function sendPush(title: string, body: string, groupId: string) {
         },
         body: JSON.stringify({
           'to': userInfo.expoPushToken,
-          'title': 'hello',
-          'body': 'world',
+          'title': 'PlanIt - Event added',
+          'body': 'Check your Google calendar',
           'channelId': 'PlanIt'
         })
       })
