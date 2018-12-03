@@ -37,8 +37,10 @@ class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScr
     this.setState({groupData: groupArray, isLoading: false});
     //console.log("GROUP DATA: ", groupIDArray)
     //console.log("GROUP DATA users: ", this.state.groupData[0].users)
-    await getUsersCalendarID(this.state.groupData[0].users, groupIDArray[0]); //get list of Calendar IDs for all members in the Group, then send this list to Firebase
-
+    for (var i in groupIDArray){
+      console.log("Updating data().calendarIDs for ", groupIDArray[i])
+      await getUsersCalendarID(this.state.groupData[0].users, groupIDArray[i]); //get list of Calendar IDs for all members in the Group, then send this list to Firebase
+    }
   }
 
   async componentWillReceiveProps(nextProps) {
