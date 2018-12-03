@@ -33,7 +33,16 @@ class EventCreationOptionsScreen extends React.Component<EventCreationOptionsScr
     return (
       <ButtonScreenTemplate
         bottomButtonText='Next'
-        bottomButtonFunction={()=> this.props.navigation.navigate('EventCreationDateRangeScreen')}
+        bottomButtonFunction={()=> this.props.navigation.navigate('FindTimeScreen', {
+            groupName: queryInfo.groupName, 
+            timeOfDay: queryInfo.timeOfDay,
+            earliestDate: queryInfo.earliestDate,
+            latestDate: queryInfo.latestDate,
+            hours: queryInfo.hours,
+            minutes: queryInfo.minutes,
+            id: queryInfo.groupId
+          }
+          )}
       >
         {loadingIndicator}
         <Text>
