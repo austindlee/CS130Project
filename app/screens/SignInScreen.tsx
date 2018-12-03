@@ -23,10 +23,12 @@ class SignInScreen extends React.Component {
     this.setState({loading: true});
     const name = this.props.navigation.getParam('name', 'user');
     let userInfoObject = await signInWithGoogleAsync();
+
     //console.log("Info object: ", userInfoObject)
     let userCalendarId = await getUserCalendarInfo(userInfoObject.accessToken);
     //console.log("User calendar id: ", userCalendarId)
     let userId = await createUser(name, userInfoObject, userCalendarId[0]);
+    
     let token = await getNewToken(userId);
 
     await Expo.SecureStore.setItemAsync('localUserID', userId.toString());

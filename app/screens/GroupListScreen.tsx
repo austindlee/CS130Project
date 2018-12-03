@@ -37,11 +37,11 @@ class GroupListScreen extends React.Component<GroupListScreenProps, GroupListScr
     })
     const groupArray = await Promise.all(groupArrayPromises);
     this.setState({groupData: groupArray, isLoading: false});
-    //console.log("GROUP DATA: ", groupIDArray)
-    //console.log("GROUP DATA users: ", this.state.groupData[0].users)
+    console.log("GROUP DATA: ", groupIDArray)
+    console.log("GROUP DATA users: ", this.state.groupData)
     for (var i in groupIDArray){
-      console.log("Updating data().calendarIDs for ", groupIDArray[i])
-      await getUsersCalendarID(this.state.groupData[0].users, groupIDArray[i]); //get list of Calendar IDs for all members in the Group, then send this list to Firebase
+      console.log("Updating data().calendarIDs for ", groupIDArray[i]) //this.state.groupData[i].users == users in the Group
+      await getUsersCalendarID(this.state.groupData[i].users, groupIDArray[i]); //get list of Calendar IDs for all members in the Group, then send this list to Firebase
     }
   }
 
@@ -115,13 +115,7 @@ export async function getUsersCalendarID(usersList, groupID) {
       //console.log("Checking doc......")
       if(doc.exists) {
           //console.log(doc.data().userCalendarId)
-          if (doc.data().userCalendarId == null){
-            allCalendarIds.push(null)
-          }
-          else{
-              allCalendarIds.push(doc.data().userCalendarId)
-          }
-
+          allCalendarIds.push(doc.data().userCalendarId)
       }
       else {
         console.log("(2) getUsersCalendarID: Can't find calendarID for user: ", usersLists[i]);
@@ -130,19 +124,25 @@ export async function getUsersCalendarID(usersList, groupID) {
 
   }
   console.log(allCalendarIds);
+  console.log(groupID)
+  try {
+    let ref = await db.collection("groups").doc(groupID);
+    if (ref.exists)
+    {
+      ref.update({
+      calendarIDs: allCalendarIds
+      })
+        console.log("Document successfully updated! Group ID: ", groupID);
+      }
+    else{
+              console.error("Error updating document: ", error);
+    }
+  }
+  catch (err) {
+      console.log('ERROR (getUsersCalendarID): ', err);
+      
+    }
 
-  //update Group in Firebase with this new list of calendarIDs
-  var ref = db.collection("groups").doc(groupID);
-  return ref.update({
-    calendarIDs: allCalendarIds
-  })
-  .then(function() {
-      console.log("Document successfully updated! Group ID: ", groupID);
-  })
-  .catch(function(error) {
-      // The document probably doesn't exist.
-      console.error("Error updating document: ", error);
-  });
 
   return allCalendarIds;
 }
