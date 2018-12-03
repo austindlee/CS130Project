@@ -1,6 +1,3 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
-import GlobalStyles from '../globals/GlobalStyles';
 import { Permissions, Notifications } from 'expo';
 import firebase, { firestore } from 'firebase';
 import 'firebase/firestore';
