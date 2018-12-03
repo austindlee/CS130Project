@@ -38,11 +38,11 @@ export async function addTestEventToCalendar() {
         'location': '800 Howard St., San Francisco, CA 94103',
         'description': 'A chance to hear more about Google\'s developer products.',
         'start': {
-            'dateTime': '2018-12-02T20:00:00-07:00',
+            'dateTime': '2018-12-02T20:00:00.000Z',
             'timeZone': 'America/Los_Angeles'
         },
         'end': {
-            'dateTime': '2018-12-02T21:00:00-07:00',
+            'dateTime': '2018-12-02T21:00:00.000Z',
             'timeZone': 'America/Los_Angeles'
         },
         'recurrence': [

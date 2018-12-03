@@ -42,3 +42,9 @@ Our tests for functions in PlanIt
 &nbsp;&nbsp;&nbsp;&nbsp;**Output**: boolean: T or null/undefined indicating if a User has a userCalendarId in Firebase
 &nbsp;&nbsp;&nbsp;&nbsp;**Outcome Test Success**: Return value is true
 &nbsp;&nbsp;&nbsp;&nbsp;**Failure Indicators**: Return value is null or undefined
+<br />
+**AddEventToCalendar.test.tsx**: Tests to see if an event is added to a user's calendar<br />
+&nbsp;&nbsp;&nbsp;&nbsp;**Input**: calendarID: string<br />
+&nbsp;&nbsp;&nbsp;&nbsp;**Output**: boolean: True or False<br />
+&nbsp;&nbsp;&nbsp;&nbsp;**Outcome Test Success**: Return value is True<br />
+&nbsp;&nbsp;&nbsp;&nbsp;**Failure Indicators**: Return value is False<br />
