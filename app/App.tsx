@@ -20,6 +20,8 @@ import GroupScreen from './screens/GroupScreen';
 import EventCreationTimeScreen from './screens/EventCreationTimeScreen';
 import EventCreationDateRangeScreen from './screens/EventCreationDateRangeScreen';
 import EventCreationOptionsScreen from './screens/EventCreationOptionsScreen';
+import LeaveGroupScreen from './screens/LeaveGroupScreen';
+import ConfirmLeftGroupScreen from './screens/ConfirmLeftGroupScreen';
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyAi3jiRJKl472HN-w-r4p8adyy1lnhV7Ss",
@@ -50,6 +52,8 @@ const RootStack = createStackNavigator(
     EventCreationTimeScreen: EventCreationTimeScreen,
     EventCreationDateRangeScreen: EventCreationDateRangeScreen,
     EventCreationOptionsScreen: EventCreationOptionsScreen,
+    LeaveGroupScreen: LeaveGroupScreen,
+    ConfirmLeftGroupScreen: ConfirmLeftGroupScreen,
   },
   {
     initialRouteName: 'Development'
@@ -65,9 +69,11 @@ export default class App extends React.Component {
       'karla-bold': require('./assets/fonts/Karla-Bold.ttf')
     });
     if (Platform.OS === 'android') {
-      Expo.Notifications.createChannelAndroidAsync('chat-messages', {
-        name: 'Chat messages',
+      Expo.Notifications.createChannelAndroidAsync('PlanIt', {
+        name: 'PlanIt',
         sound: true,
+        priority: 'max',
+        importance: 4
       });
     }
   }

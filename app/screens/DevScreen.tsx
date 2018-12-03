@@ -2,6 +2,7 @@ import React from 'react';
 import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 import BottomButton from '../components/BottomButton';
 import { createStackNavigator } from 'react-navigation';
+import { sendPush } from '../utils/local/PushNotifications';
 import * as Expo from 'expo';
 
 class DevScreen extends React.Component {
@@ -27,6 +28,10 @@ class DevScreen extends React.Component {
         <Button
           title='Event Creation'
           onPress={() => this.props.navigation.navigate('EventCreationScreen')}
+        />
+        <Button
+          title='Send Push'
+          onPress={async () => sendPush('hi', 'test', ['ExponentPushToken[77n75qKhyN5H5HLQ3P7E9x]', 'ExponentPushToken[TCTHGUCgYWJ4frxHJvk4wh]'])}
         />
         <Button
           title="AddTestEventToGoogleCalendarOnMay28,2015"

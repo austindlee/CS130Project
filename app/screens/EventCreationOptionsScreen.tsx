@@ -45,6 +45,9 @@ class EventCreationOptionsScreen extends React.Component<EventCreationOptionsScr
       >
         {loadingIndicator}
         <Text>
+          {queryInfo.groupId}
+        </Text>
+        <Text>
           {queryInfo.groupName}
         </Text>
         <Text>

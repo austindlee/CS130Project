@@ -112,3 +112,71 @@ export async function getGroupInfo(groupID: string) {
     return null;
   }
 }
+
+export async function removeFromGroup(userID: string, groupID: string) {
+  const db = firebase.firestore();
+  try {
+    let doc = await db.collection('users').doc(userID).get();
+    if(doc.exists) {
+      let resultingArray = doc.data().groups.filter(group => group != groupID);
+      db.collection('users').doc(userID).update({
+        groups: resultingArray
+      });
+    }
+  } catch(err) {
+    return null;
+  }
+  try {
+    let doc = await db.collection('groups').doc(groupID).get();
+    if(doc.exists) {
+      let resultingArray = doc.data().users.filter(user => user != userID);
+      db.collection('groups').doc(groupID).update({
+        users: resultingArray
+      });
+    }
+  } catch(err) {
+    return null;
+  }
+  // delete from user's groups
+  // try {
+  //   let doc = await db.collection('groups').doc(groupID).get();
+  //   if(doc.exists) {
+  //     // This call can be blocking - no ned for async/await
+  //     db.collection('groups').doc(groupID).update({
+  //       users: firebase.firestore.FieldValue.arrayUnion(userID)
+  //     });
+  //
+  //     // This call can be blocking - no need for async/await
+  //     db.collection('users').doc(userID).update({
+  //       groups: firebase.firestore.FieldValue.arrayUnion(groupID)
+  //     });
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // } catch (err) {
+  //   console.log('Could not grab group based on groupID');
+  //   return false;
+  // }
+  // try {
+  //   let doc = await db.collection('users').doc(userID).get();
+  //   if(doc.exists) {
+  //     db.collection('users').doc(userID).update({
+  //
+  //     });
+  //     return doc.data();
+  //   } else {
+  //     return null;
+  //   }
+  // } catch (err){
+  //   console.log('Error removing user frmo group');
+  //   return null;
+  // }
+  // // delete group group's users
+  // try {
+  //
+  // } catch (err) {
+  //   console.log('Could not leave group');
+  //   return null;
+  // }
+}

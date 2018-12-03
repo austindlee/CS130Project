@@ -1,5 +1,5 @@
-const diff = require('../utils/UserUtils');
+import {getUsersGroups} from '../utils/firebase/UserUtils';
 
 test('Accessing group id of user', () => {
-  expect(getUsersGroups("0").toBe(["-LRMC5C-7zXL9MGYWIfq"]);
+  return expect(getUsersGroups("0")).resolves.toBe(['']);
 });

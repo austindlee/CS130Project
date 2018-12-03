@@ -49,6 +49,7 @@ class EventCreationDateRangeScreen extends React.Component<EventCreationDateRang
         bottomButtonFunction={()=> this.props.navigation.navigate('EventCreationOptionsScreen',
           {
             groupName: this.props.navigation.state.params.groupName,
+            groupId: this.props.navigation.state.params.groupId,
             timeOfDay: this.props.navigation.state.params.timeOfDayNumber,
             earliestDate: this.state.earliestDate,
             latestDate: this.state.latestDate,
