@@ -35,7 +35,7 @@ class DevScreen extends React.Component {
         />
         <Button
           title='Send Push'
-          onPress={async () => sendPush('hi', 'test', '196588573')}
+          onPress={async () => sendPush('hi', 'test', '124440921')}
         />
         <Button
           title="AddTestEventToCalendar"

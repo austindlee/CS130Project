@@ -18,6 +18,19 @@ class EventCreationOptionsScreen extends React.Component<EventCreationOptionsScr
 
   async componentDidMount() {
     this.setState({isLoading: false});
+
+    let queryInfo = this.props.navigation.state.params;
+    this.props.navigation.navigate('FindTimeScreen', {
+      groupName: queryInfo.groupName,
+      timeOfDay: queryInfo.timeOfDay,
+      earliestDate: queryInfo.earliestDate,
+      latestDate: queryInfo.latestDate,
+      hours: queryInfo.hours,
+      minutes: queryInfo.minutes,
+      id: queryInfo.groupId,
+      description: queryInfo.description,
+    }
+    );
   }
 
   static navigationOptions = {
@@ -34,7 +47,7 @@ class EventCreationOptionsScreen extends React.Component<EventCreationOptionsScr
       <ButtonScreenTemplate
         bottomButtonText='Next'
         bottomButtonFunction={()=> this.props.navigation.navigate('FindTimeScreen', {
-            groupName: queryInfo.groupName, 
+            groupName: queryInfo.groupName,
             timeOfDay: queryInfo.timeOfDay,
             earliestDate: queryInfo.earliestDate,
             latestDate: queryInfo.latestDate,

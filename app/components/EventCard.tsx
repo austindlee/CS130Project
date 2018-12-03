@@ -28,7 +28,7 @@ export default class EventCard extends React.Component<EventCardProps> {
     const currentDate = new Date();
     let dateDisplay =
     <Text style={[GlobalStyles.fontSize.small, GlobalStyles.fontFamily.secondaryFont, GlobalStyles.textColor.white, styles.timeContainer]}>
-      {this.props.eventDate}
+      {TimeConversion.convertDateToString(new Date(this.props.eventDate))}
     </Text>
 
     return (

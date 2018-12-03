@@ -22,6 +22,7 @@ import EventCreationDateRangeScreen from './screens/EventCreationDateRangeScreen
 import EventCreationOptionsScreen from './screens/EventCreationOptionsScreen';
 import LeaveGroupScreen from './screens/LeaveGroupScreen';
 import ConfirmLeftGroupScreen from './screens/ConfirmLeftGroupScreen';
+import EventCreationConfirmationScreen from './screens/EventCreationConfirmationScreen';
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyAi3jiRJKl472HN-w-r4p8adyy1lnhV7Ss",
@@ -54,6 +55,7 @@ const RootStack = createStackNavigator(
     EventCreationOptionsScreen: EventCreationOptionsScreen,
     LeaveGroupScreen: LeaveGroupScreen,
     ConfirmLeftGroupScreen: ConfirmLeftGroupScreen,
+    EventCreationConfirmationScreen: EventCreationConfirmationScreen
   },
   {
     initialRouteName: 'Development'

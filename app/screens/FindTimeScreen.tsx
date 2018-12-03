@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, ActivityIndicator } from 'react-native';
 import * as Expo from 'expo';
-import { getGroupInfo } from '../utils/firebase/GroupsUtils';
+import { getGroupInfo, addEventToGroup } from '../utils/firebase/GroupsUtils';
 import ButtonScreenTemplate from './ButtonScreenTemplate';
 import firebase, { firestore } from 'firebase';
 import 'firebase/firestore';
@@ -37,7 +37,7 @@ class FindTimeScreen extends React.Component {
       const userID = await Expo.SecureStore.getItemAsync('localUserID');
       console.log("THIS IS THE USERID" + userID);
 
-      // let accessToken = await Expo.SecureStore.getItemAsync('localUserAccessToken'); 
+      // let accessToken = await Expo.SecureStore.getItemAsync('localUserAccessToken');
       let accessToken = "1/CCs2p49ZrDogYkaHfDg1w-HvFmZ7mVE0g-cV3vVo88k";
       if (userID != null) {
         accessToken = await getNewToken(userID);
@@ -259,17 +259,20 @@ private async parseInfo(queryInfo) {
         let startDate = new Date(freeTime.start).toISOString();
         return <BottomButton
                   buttonAction={() => {
-                    createEvent('aperson707@gmail.com', 
-                      this.state.accessToken, 
-                      queryInfo.description, 
-                      {'dateTime': new Date(freeTime.end).toISOString(), 'timeZone': 'America/Los_Angeles'}, 
+                    createEvent('mildollarbaby@gmail.com',
+                      this.state.accessToken,
+                      queryInfo.description,
+                      {'dateTime': new Date(freeTime.end).toISOString(), 'timeZone': 'America/Los_Angeles'},
                       {'dateTime': new Date(freeTime.start).toISOString(), 'timeZone': 'America/Los_Angeles'},
                       [
                         {'email': 'mildollarbaby@gmail.com'},
                         {'email': 'planit.test.ucla@gmail.com'},
                         {'email': 'aperson707@gmail.com'}
                       ]);
-                      sendPush('PlanIt notification', 'body', queryInfo.groupID)
+                      console.log("what is groupid" + this.props.navigation.getParam('id', 'a'));
+                    sendPush('PlanIt notification', 'body', this.props.navigation.getParam('id', 'a'));
+                    addEventToGroup(this.props.navigation.getParam('id', 'a'), {'description': queryInfo.description, 'timestart': new Date(freeTime.start).toISOString()});
+                    this.props.navigation.navigate('EventCreationConfirmationScreen');
                   }}
                   buttonFilled={false}
                   buttonText={newString} />
@@ -283,7 +286,6 @@ private async parseInfo(queryInfo) {
           >
           {buttonTimes }
           <Text>
-          {queryInfo.groupName}
           </Text>
           </ButtonScreenTemplate>
         );
