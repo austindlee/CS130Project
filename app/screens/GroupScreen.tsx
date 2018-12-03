@@ -4,7 +4,7 @@ import GlobalStyles from '../globals/GlobalStyles';
 import { LinearGradient } from 'expo';
 import { getUsersGroups } from '../utils/firebase/UserUtils';
 import { getUserInfo } from '../utils/firebase/UserUtils';
-import { getGroupInfo } from '../utils/firebase/GroupsUtils';
+import { getGroupInfo, getEventsFromGroup} from '../utils/firebase/GroupsUtils';
 import * as Expo from 'expo';
 import ProfilePhoto from '../components/ProfilePhoto';
 import ButtonScreenTemplate from './ButtonScreenTemplate';
@@ -31,8 +31,11 @@ class GroupScreen extends React.Component {
       return (user.photoUrl ? user.photoUrl : '');
     });
     const currentDate = new Date();
+    let eventsFromGroup = await getEventsFromGroup(this.props.navigation.state.params.id);
+    console.log(eventsFromGroup);
     this.setState({
-      eventData: [{name: "Cool event", date: currentDate.toString()}],
+      eventData: eventsFromGroup,
+      // eventData: [{name: "Cool event", date: currentDate.toString()}],
       // TODO: populate with actual eventData
       profilePhotoURLs: userPics,
       profilePhotosLoading: false
@@ -82,7 +85,8 @@ class GroupScreen extends React.Component {
           data={this.state.eventData}
           keyExtractor={(item) => item.name}
           renderItem={({item}) =>
-            <EventCard eventName={item.name} eventDate={item.date}>
+            // TODO: CHANGE THIS ONCE EVENT OBJECTS ARE CREATED
+            <EventCard eventName={item.description} eventDate={item.timestart}>
             </EventCard>}
         />
       </View>

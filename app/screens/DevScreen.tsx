@@ -14,7 +14,7 @@ class DevScreen extends React.Component {
   };
 
   render() {
-    var event = {description:"here3", timestart:"start", timeend:"end"};
+    var event = {description:"here5", timestart:"start", timeend:"end"};
     return (
       <View>
         <Button
@@ -43,11 +43,11 @@ class DevScreen extends React.Component {
         />
         <Button
           title="Get Events from Group"
-          onPress={async() => getEventsFromGroup('112231046')}
+          onPress={async() => getEventsFromGroup('120342527')}
         />
         <Button
           title="Add Event to Group"
-          onPress={async() => addEventToGroup('112231046', event)}
+          onPress={async() => addEventToGroup('120342527', event)}
         />
       </View>
     );

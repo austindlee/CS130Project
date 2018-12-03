@@ -26,7 +26,10 @@ export default class EventCard extends React.Component<EventCardProps> {
 
   render() {
     const currentDate = new Date();
-    let dateDisplay = <Text style={[GlobalStyles.fontSize.small, GlobalStyles.fontFamily.secondaryFont, GlobalStyles.textColor.white, styles.timeContainer]}>{currentDate.toString()}</Text>
+    let dateDisplay =
+    <Text style={[GlobalStyles.fontSize.small, GlobalStyles.fontFamily.secondaryFont, GlobalStyles.textColor.white, styles.timeContainer]}>
+      {this.props.eventDate}
+    </Text>
 
     return (
       <View style={styles.eventContainer} elevation={5}>
