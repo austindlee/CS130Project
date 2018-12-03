@@ -44,14 +44,17 @@ class GroupScreen extends React.Component {
     let dateDisplay = <Text style={[GlobalStyles.fontSize.small, GlobalStyles.fontFamily.secondaryFont, GlobalStyles.textColor.white, styles.timeContainer]}>{currentDate.toString()}</Text>
 
     const groupName = this.props.navigation.getParam('name', 'Group Name');
+    const groupId = this.props.navigation.state.params.id;
     const profilePhotoPlaceholder = <ProfilePhoto />;
     const profilePhoto = this.state.profilePhotoURLs.map((url: string) => <ProfilePhoto key={url} profilePhotoURL={url}/>);
 
     const groupColor = this.props.navigation.getParam('color', 0);
     return (
       <ButtonScreenTemplate
-        bottomButtonText='Plan event'
-        bottomButtonFunction={()=> this.props.navigation.navigate('EventCreationTimeScreen', {groupName: groupName})}
+        topButtonText='Leave Group'
+        topButtonFunction={()=> this.props.navigation.navigate('LeaveGroupScreen', {groupName: groupName, groupId: groupId})}
+        bottomButtonText='Plan Event'
+        bottomButtonFunction={()=> this.props.navigation.navigate('EventCreationTimeScreen', {groupName: groupName, groupId: groupId})}
         darkBackground={false}
       >
       <View style={styles.background}>
