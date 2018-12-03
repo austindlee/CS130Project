@@ -48,7 +48,7 @@ class FindTimeScreen extends React.Component {
         }
       }
   
-      console.log("start time is" + parsedInfo.startTime + ", end time is " + parsedInfo.endTime);
+      console.log("start time is" + parsedInfo.startTime + ", end time is " + parsedInfo.endTime.toISOString());
       var bodyInfo = {
         "timeMin": parsedInfo.startTime,
         "timeMax": parsedInfo.endTime,
@@ -71,7 +71,7 @@ class FindTimeScreen extends React.Component {
 
         }
   
-        let busyResponse = await this.findFreeTime(JSON.stringify(bodyInfo), result.accessToken);
+        // let busyResponse = await this.findFreeTime(JSON.stringify(bodyInfo), result.accessToken);
       // this.props.navigation.navigate('GroupListScreen');
     };
 
@@ -126,7 +126,7 @@ private async parseInfo(queryInfo) {
   console.log("in parseinfo");
   let interval = queryInfo.hours
   let timeOfDay = {
-    "0": "T6:00:00.00Z",
+    "0": "T06:00:00.00Z",
     "1": "T12:00:00.00Z",
     "2": "T18:00:00.00Z",
     "3": "T00:00:00.00Z"
