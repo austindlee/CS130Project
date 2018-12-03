@@ -20,7 +20,7 @@ export async function createEvent(calendarID, accessToken, summary, end, start, 
     };
     let requestBodyJSON = JSON.stringify(requestBody)
     console.log("hello");
-    await fetch('https://www.googleapis.com/calendar/v3/calendars/' + calendarID + '/events', {
+    let response = await fetch('https://www.googleapis.com/calendar/v3/calendars/' + calendarID + '/events', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -29,6 +29,7 @@ export async function createEvent(calendarID, accessToken, summary, end, start, 
         },
         body: requestBodyJSON
     })
+    return (response.status == 200);
 };
 
 export async function addTestEventToCalendar() {
