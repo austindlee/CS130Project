@@ -121,7 +121,7 @@ export async function getUserInfo(userID: string) {
   try {
     let doc = await db.collection('users').doc(userID).get();
     if(doc.exists) {
-      console.log(doc.data());
+      console.log("UserUtils/getUserInfo: ", doc.data());
       return doc.data();
     } else {
       return null;
