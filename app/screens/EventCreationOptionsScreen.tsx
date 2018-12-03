@@ -39,7 +39,8 @@ class EventCreationOptionsScreen extends React.Component<EventCreationOptionsScr
             earliestDate: queryInfo.earliestDate,
             latestDate: queryInfo.latestDate,
             hours: queryInfo.hours,
-            minutes: queryInfo.minutes
+            minutes: queryInfo.minutes,
+            id: queryInfo.groupId
           }
           )}
       >

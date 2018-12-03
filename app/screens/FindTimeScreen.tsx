@@ -36,7 +36,7 @@ class FindTimeScreen extends React.Component {
       console.log("result type", result.type);
 
       //NEED TO GET THIS FROM GROUPLIST onclick props
-      let groupData = await getGroupInfo("124440921");
+      let groupData = await getGroupInfo(queryInfo.id);
       console.log("this is the group doc.data()" + groupData);
       let calendarIDs = groupData.calendarIDs;
       console.log(calendarIDs);
